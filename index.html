@@ -1,0 +1,3609 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KRONOS // HOROLOGY LAB — Haute Horlogerie Genève</title>
+  <meta name="description" content="Штучные скелетоны из кованого карбона TPT, титана Grade 5 и сапфирового моноблока. Мануфактурные парящие турбийоны весом 28.4 г с ударопрочностью 5000 G. Лимит 12 экземпляров в год.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600;1,700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       CSS CUSTOM PROPERTIES & DESIGN TOKENS (INDUSTRIAL DARK LUXURY)
+       ========================================================================== */
+    :root {
+      --bg-void: #070708;
+      --bg-surface: #0e0f12;
+      --bg-surface-elevated: #14161c;
+      --bg-glass: rgba(18, 19, 24, 0.76);
+      --text-primary: #f4f4f6;
+      --text-muted: #8a8d98;
+      --text-dim: #545763;
+      --accent-amber: #ff4d00;
+      --accent-amber-glow: rgba(255, 77, 0, 0.4);
+      --accent-titanium: #c8ccd4;
+      --accent-emerald: #00ff9d;
+      --accent-cobalt: #00d2ff;
+      --accent-ruby: #ff1e42;
+      --border-hairline: rgba(255, 255, 255, 0.08);
+      --border-hairline-light: rgba(255, 255, 255, 0.15);
+      --border-active: rgba(255, 77, 0, 0.5);
+
+      --font-display: 'Syne', sans-serif;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --header-height: 84px;
+      --topbar-height: 34px;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* CSS Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      background-color: var(--bg-void);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      overflow-x: hidden;
+      min-height: 100vh;
+      background-color: var(--bg-void);
+      position: relative;
+    }
+
+    /* Selection */
+    ::selection {
+      background: var(--accent-amber);
+      color: #000;
+    }
+
+    /* SVG Grain Overlay */
+    .grain-overlay {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Technical Blueprint Grid Pattern */
+    .blueprint-grid-bg {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, var(--border-hairline) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--border-hairline) 1px, transparent 1px);
+      background-size: 64px 64px;
+      pointer-events: none;
+      opacity: 0.45;
+      mask-image: radial-gradient(circle at 50% 30%, black 40%, transparent 85%);
+      -webkit-mask-image: radial-gradient(circle at 50% 30%, black 40%, transparent 85%);
+    }
+
+    /* Typography Utilities */
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+
+    .font-serif-italic {
+      font-family: var(--font-serif);
+      font-weight: 600;
+      font-style: italic;
+      letter-spacing: normal;
+    }
+
+    .font-mono {
+      font-family: var(--font-mono);
+      letter-spacing: -0.01em;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      background: none;
+      border: none;
+      color: inherit;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    input, textarea, select {
+      font-family: inherit;
+      color: inherit;
+    }
+
+    /* Layout Containers */
+    .container {
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 clamp(20px, 4vw, 48px);
+      position: relative;
+    }
+
+    /* Technical crosshairs & hairline borders */
+    .tech-border {
+      border: 1px solid var(--border-hairline);
+      position: relative;
+    }
+
+    .tech-crosshair::before,
+    .tech-crosshair::after {
+      content: '+';
+      position: absolute;
+      font-family: var(--font-mono);
+      font-size: 13px;
+      color: var(--text-muted);
+      opacity: 0.55;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .tech-crosshair::before { top: -7px; left: -5px; }
+    .tech-crosshair::after { bottom: -7px; right: -5px; }
+
+    .crosshair-tl { position: absolute; top: -7px; left: -5px; font-family: var(--font-mono); font-size: 13px; color: var(--text-dim); }
+    .crosshair-tr { position: absolute; top: -7px; right: -5px; font-family: var(--font-mono); font-size: 13px; color: var(--text-dim); }
+    .crosshair-bl { position: absolute; bottom: -7px; left: -5px; font-family: var(--font-mono); font-size: 13px; color: var(--text-dim); }
+    .crosshair-br { position: absolute; bottom: -7px; right: -5px; font-family: var(--font-mono); font-size: 13px; color: var(--text-dim); }
+
+    /* Technical Badge / Tag */
+    .tech-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-titanium);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-hairline);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    .tech-tag.amber {
+      color: var(--accent-amber);
+      border-color: rgba(255, 77, 0, 0.3);
+      background: rgba(255, 77, 0, 0.06);
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--accent-amber);
+      box-shadow: 0 0 8px var(--accent-amber);
+      animation: pulseAnim 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseAnim {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.35; transform: scale(0.8); }
+    }
+
+    /* ==========================================================================
+       SECTION 1: TOP TECH STATUS BAR & STICKY HEADER
+       ========================================================================== */
+    .top-status-bar {
+      height: var(--topbar-height);
+      background: #040405;
+      border-bottom: 1px solid var(--border-hairline);
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      display: flex;
+      align-items: center;
+      position: relative;
+      z-index: 1000;
+    }
+
+    .top-status-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+
+    .top-status-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .top-status-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .status-badge-live {
+      color: var(--accent-amber);
+      font-weight: 600;
+    }
+
+    .top-status-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    /* Main Sticky Header */
+    .main-header {
+      position: sticky;
+      top: 0;
+      z-index: 900;
+      height: var(--header-height);
+      background: var(--bg-glass);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border-hairline);
+      display: flex;
+      align-items: center;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .logo-block {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-symbol {
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-hairline-light);
+      background: rgba(255, 255, 255, 0.03);
+      position: relative;
+    }
+
+    .logo-symbol svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--accent-amber);
+    }
+
+    .logo-text {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .logo-text span {
+      font-family: var(--font-mono);
+      font-weight: 400;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      letter-spacing: 0.12em;
+    }
+
+    /* Desktop Navigation */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 3vw, 36px);
+      list-style: none;
+    }
+
+    .nav-link {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s ease;
+      position: relative;
+      padding: 6px 0;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 1px;
+      background: var(--accent-amber);
+      transition: width 0.25s var(--ease-out-expo);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Header Actions */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .sound-toggle-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-hairline);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      border-radius: 2px;
+      transition: all 0.2s ease;
+    }
+
+    .sound-toggle-btn:hover {
+      border-color: var(--border-hairline-light);
+      color: var(--text-primary);
+    }
+
+    .sound-toggle-btn.is-active {
+      border-color: var(--accent-amber);
+      color: var(--accent-amber);
+      background: rgba(255, 77, 0, 0.08);
+    }
+
+    .sound-bars {
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+    }
+
+    .sound-bar {
+      width: 2px;
+      background: currentColor;
+      height: 4px;
+      border-radius: 1px;
+      transition: height 0.15s ease;
+    }
+
+    .sound-toggle-btn.is-active .sound-bar:nth-child(1) { animation: soundWave 0.6s infinite alternate ease-in-out; }
+    .sound-toggle-btn.is-active .sound-bar:nth-child(2) { animation: soundWave 0.9s infinite alternate 0.2s ease-in-out; }
+    .sound-toggle-btn.is-active .sound-bar:nth-child(3) { animation: soundWave 0.7s infinite alternate 0.4s ease-in-out; }
+
+    @keyframes soundWave {
+      0% { height: 3px; }
+      100% { height: 12px; }
+    }
+
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      background: #f4f4f6;
+      color: #070708;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      font-size: 0.8rem;
+      letter-spacing: 0.02em;
+      border: 1px solid #f4f4f6;
+      border-radius: 2px;
+      transition: all 0.25s var(--ease-out-expo);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-cta:hover {
+      background: var(--accent-amber);
+      border-color: var(--accent-amber);
+      color: #fff;
+      box-shadow: 0 0 24px var(--accent-amber-glow);
+      transform: translateY(-1px);
+    }
+
+    .btn-cta-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 1px solid var(--border-hairline-light);
+    }
+
+    .btn-cta-secondary:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: var(--text-primary);
+      color: #fff;
+      box-shadow: none;
+    }
+
+    /* Mobile Menu Toggle */
+    .mobile-menu-btn {
+      display: none;
+      width: 40px;
+      height: 40px;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border-hairline);
+    }
+
+    .mobile-menu-btn span {
+      width: 20px;
+      height: 1.5px;
+      background: var(--text-primary);
+      transition: transform 0.2s ease;
+    }
+
+    /* ==========================================================================
+       SECTION 2: HERO SECTION (12-COL GRID + INTERACTIVE CALIBRE 3D)
+       ========================================================================== */
+    .hero-section {
+      position: relative;
+      min-height: calc(100vh - var(--header-height) - var(--topbar-height));
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(40px, 6vh, 80px) 0 40px;
+      border-bottom: 1px solid var(--border-hairline);
+      overflow: hidden;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: clamp(32px, 5vw, 64px);
+      align-items: center;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-meta-badge {
+      margin-bottom: 24px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 4.6vw, 4.8rem);
+      line-height: 1.02;
+      margin-bottom: 24px;
+      color: var(--text-primary);
+    }
+
+    .hero-title .editorial-accent {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-weight: 500;
+      color: var(--accent-titanium);
+      text-shadow: 0 0 30px rgba(255, 255, 255, 0.15);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 1.25vw, 1.2rem);
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 580px;
+      margin-bottom: 36px;
+      font-weight: 400;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    /* Interactive Watch Skeleton Container (Right Column) */
+    .hero-visual-col {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1200px;
+    }
+
+    .hero-calibre-stage {
+      width: 100%;
+      max-width: 540px;
+      aspect-ratio: 1 / 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-style: preserve-3d;
+      transition: transform 0.12s ease-out;
+    }
+
+    .stage-glow-ambient {
+      position: absolute;
+      inset: 15%;
+      background: radial-gradient(circle, rgba(255, 77, 0, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+      filter: blur(40px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .calibre-svg-root {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.8));
+    }
+
+    /* SVG Animations inside watch */
+    @keyframes gearRotateCW {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    @keyframes gearRotateCCW {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
+    }
+    @keyframes tourbillonPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+
+    .anim-gear-cw-slow {
+      transform-origin: 250px 250px;
+      animation: gearRotateCW 48s linear infinite;
+    }
+    .anim-gear-ccw-med {
+      transform-origin: 250px 250px;
+      animation: gearRotateCCW 24s linear infinite;
+    }
+    .anim-tourbillon-cage {
+      transform-origin: 250px 335px;
+      animation: gearRotateCW 60s linear infinite;
+    }
+    .anim-balance-wheel {
+      transform-origin: 250px 335px;
+      animation: gearRotateCCW 0.25s ease-in-out infinite alternate;
+    }
+    .anim-hands-seconds {
+      transform-origin: 250px 335px;
+      animation: gearRotateCW 60s steps(480) infinite;
+    }
+    .anim-hands-minutes {
+      transform-origin: 250px 250px;
+      animation: gearRotateCW 3600s linear infinite;
+    }
+    .anim-hands-hours {
+      transform-origin: 250px 250px;
+      animation: gearRotateCW 43200s linear infinite;
+    }
+
+    /* Floating Technical Callouts in Hero */
+    .tech-callout {
+      position: absolute;
+      background: rgba(10, 11, 14, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border-hairline-light);
+      padding: 6px 12px;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 3;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    }
+    .tech-callout span:first-child {
+      color: var(--accent-amber);
+      font-size: 0.62rem;
+      letter-spacing: 0.08em;
+    }
+    .tech-callout-1 { top: 10%; right: 4%; }
+    .tech-callout-2 { bottom: 14%; left: 0%; }
+
+    /* Hero Metrics Bar (4 Engineering Numbers) */
+    .hero-metrics-bar {
+      margin-top: 48px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border-hairline);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .metric-card {
+      position: relative;
+    }
+
+    .metric-value {
+      font-family: var(--font-mono);
+      font-size: clamp(1.6rem, 2.4vw, 2.4rem);
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.1;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+
+    .metric-value .metric-unit {
+      font-size: 0.95rem;
+      color: var(--accent-amber);
+      font-weight: 400;
+    }
+
+    .metric-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+
+    /* ==========================================================================
+       SECTION 3: ANATOMY OF CALIBRE (BENTO GRID + INTERACTIVE X-RAY)
+       ========================================================================== */
+    .section-padding {
+      padding: clamp(64px, 10vh, 120px) 0;
+      position: relative;
+      border-bottom: 1px solid var(--border-hairline);
+    }
+
+    .section-header {
+      margin-bottom: clamp(40px, 6vh, 64px);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .section-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--accent-amber);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title {
+      font-size: clamp(2rem, 3.8vw, 3.4rem);
+      color: var(--text-primary);
+      max-width: 860px;
+    }
+
+    .section-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 640px;
+    }
+
+    /* Bento Grid */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 20px;
+    }
+
+    .bento-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: 2px;
+      padding: clamp(24px, 3vw, 36px);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    /* Mouse Glow on border */
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      background: radial-gradient(
+        500px circle at var(--mouse-x, -500px) var(--mouse-y, -500px),
+        rgba(255, 77, 0, 0.22),
+        transparent 60%
+      );
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .bento-card:hover::before {
+      opacity: 1;
+    }
+
+    .bento-card-inner {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    /* Sizing in Bento */
+    .bento-span-7 { grid-column: span 7; min-height: 380px; }
+    .bento-span-5 { grid-column: span 5; min-height: 380px; }
+    .bento-span-6 { grid-column: span 6; min-height: 420px; }
+
+    .bento-tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--accent-amber);
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    .bento-title {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .bento-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    /* Sub-visuals inside Bento cards */
+    /* 1. Carbon TPT Dashboard */
+    .carbon-telemetry-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 16px;
+      border: 1px solid var(--border-hairline);
+    }
+    .carbon-telemetry-item {
+      font-family: var(--font-mono);
+    }
+    .carbon-telemetry-label {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+    .carbon-telemetry-val {
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* 2. Titanium Stress distribution */
+    .fea-stress-box {
+      width: 100%;
+      height: 160px;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--border-hairline);
+      position: relative;
+      margin-top: 16px;
+      overflow: hidden;
+    }
+
+    /* 3. Tourbillon Lume Switcher */
+    .lume-card {
+      transition: background-color 0.4s ease, border-color 0.4s ease;
+    }
+    .lume-card.is-night-mode {
+      background: #020403 !important;
+      border-color: rgba(0, 255, 157, 0.4) !important;
+      box-shadow: inset 0 0 50px rgba(0, 255, 157, 0.06);
+    }
+    .lume-card.is-night-mode .bento-title {
+      color: var(--accent-emerald);
+      text-shadow: 0 0 16px rgba(0, 255, 157, 0.5);
+    }
+    .lume-card.is-night-mode .tourbillon-lume-glow {
+      filter: drop-shadow(0 0 12px #00ff9d) drop-shadow(0 0 24px #00ff9d);
+    }
+
+    .lume-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-hairline-light);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-primary);
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+      margin-top: 16px;
+    }
+    .lume-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--accent-amber);
+    }
+    .is-night-mode .lume-toggle-btn {
+      background: rgba(0, 255, 157, 0.15);
+      border-color: var(--accent-emerald);
+      color: var(--accent-emerald);
+    }
+
+    /* 4. Acoustic Escapement 28,800 vph audio */
+    .audio-demo-container {
+      margin-top: 20px;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border-hairline);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .audio-play-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .btn-audio-tick {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      background: rgba(255, 77, 0, 0.12);
+      border: 1px solid var(--accent-amber);
+      color: var(--accent-amber);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border-radius: 2px;
+    }
+    .btn-audio-tick:hover {
+      background: var(--accent-amber);
+      color: #000;
+      box-shadow: 0 0 20px var(--accent-amber-glow);
+    }
+    .btn-audio-tick.is-playing {
+      background: var(--accent-amber);
+      color: #000;
+      animation: pulsePlaying 1.2s infinite ease-in-out;
+    }
+
+    @keyframes pulsePlaying {
+      0%, 100% { box-shadow: 0 0 10px var(--accent-amber-glow); }
+      50% { box-shadow: 0 0 28px rgba(255, 77, 0, 0.8); }
+    }
+
+    .audio-oscilloscope {
+      height: 48px;
+      width: 100%;
+      background: #040507;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .audio-canvas-wave {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ==========================================================================
+       SECTION 4: BESPOKE CONFIGURATOR (ИНДИВИДУАЛЬНАЯ СБОРКА)
+       ========================================================================== */
+    .configurator-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: clamp(32px, 5vw, 64px);
+      align-items: start;
+    }
+
+    /* Sticky Watch Visualizer Left Column */
+    .config-preview-panel {
+      position: sticky;
+      top: calc(var(--header-height) + 24px);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      border-radius: 2px;
+      padding: clamp(24px, 4vw, 40px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .config-preview-stage {
+      width: 100%;
+      max-width: 440px;
+      aspect-ratio: 1 / 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .config-spec-badge-bar {
+      width: 100%;
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-hairline);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      font-family: var(--font-mono);
+    }
+
+    .config-spec-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .config-spec-label {
+      font-size: 0.65rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .config-spec-val {
+      font-size: 0.85rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .config-sku-tag {
+      grid-column: span 3;
+      margin-top: 8px;
+      padding: 6px 10px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-hairline);
+      font-size: 0.72rem;
+      color: var(--accent-amber);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Right Customization Controls */
+    .config-controls-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    .config-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .config-group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px solid var(--border-hairline);
+      padding-bottom: 8px;
+    }
+
+    .config-group-title {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .config-group-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* Option Cards Grid */
+    .config-options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+
+    .config-option-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-hairline);
+      padding: 14px 16px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+      border-radius: 2px;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .config-option-card:hover {
+      border-color: var(--border-hairline-light);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .config-option-card.is-selected {
+      border-color: var(--accent-amber);
+      background: rgba(255, 77, 0, 0.06);
+      box-shadow: 0 0 20px rgba(255, 77, 0, 0.12);
+    }
+
+    .config-option-card.is-selected::after {
+      content: '✓';
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 0.75rem;
+      color: var(--accent-amber);
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    .option-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+      padding-right: 18px;
+    }
+
+    .option-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+    }
+
+    .option-price {
+      color: var(--accent-amber);
+      font-weight: 600;
+    }
+
+    .option-detail {
+      color: var(--text-muted);
+    }
+
+    /* Color Swatches Grid */
+    .color-swatches-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .swatch-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-hairline);
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .swatch-card:hover { border-color: var(--border-hairline-light); }
+    .swatch-card.is-selected {
+      border-color: var(--accent-amber);
+      background: rgba(255, 77, 0, 0.06);
+    }
+    .swatch-circle {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Custom Rotor Engraving Input */
+    .engraving-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-hairline);
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .engraving-input-wrap {
+      display: flex;
+      gap: 12px;
+    }
+
+    .engraving-input {
+      flex: 1;
+      background: #040507;
+      border: 1px solid var(--border-hairline);
+      padding: 10px 14px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .engraving-input:focus {
+      border-color: var(--accent-amber);
+    }
+
+    .engraving-hint {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Summary & Price Checkout Bar */
+    .config-summary-bar {
+      margin-top: 16px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-hairline-light);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+    }
+
+    .price-display-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .price-label-col {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .price-title {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .price-value-container {
+      font-family: var(--font-mono);
+      font-size: clamp(2rem, 3vw, 2.6rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .price-currency {
+      color: var(--accent-amber);
+      margin-right: 4px;
+    }
+
+    .lead-time-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ==========================================================================
+       SECTION 5: LIMITED EDITIONS SHOWCASE (КАТАЛОГ С ФИЛЬТРАМИ)
+       ========================================================================== */
+    .filter-tabs-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 36px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .filter-tab-btn {
+      padding: 8px 16px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-hairline);
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .filter-tab-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--border-hairline-light);
+    }
+
+    .filter-tab-btn.is-active {
+      color: #000;
+      background: var(--text-primary);
+      border-color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .catalog-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .catalog-card:hover {
+      border-color: var(--border-hairline-light);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    .catalog-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 20px;
+    }
+
+    .catalog-model-id {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--accent-amber);
+    }
+
+    .catalog-limit-badge {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      padding: 2px 6px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-hairline);
+    }
+
+    .catalog-visual-wrap {
+      width: 100%;
+      height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .catalog-name {
+      font-size: 1.45rem;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .catalog-material {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    /* Technical Accordion inside card */
+    .catalog-accordion {
+      border-top: 1px solid var(--border-hairline);
+      padding-top: 16px;
+      margin-bottom: 20px;
+    }
+
+    .spec-meter-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+    }
+
+    .spec-meter-header {
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-muted);
+    }
+
+    .spec-meter-bar {
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .spec-meter-fill {
+      height: 100%;
+      background: var(--accent-amber);
+      transition: width 0.6s ease;
+    }
+
+    .catalog-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-hairline);
+    }
+
+    .catalog-price {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    /* ==========================================================================
+       SECTION 6: MANUFACTURING PROTOCOL (ПРОТОКОЛ СОЗДАНИЯ)
+       ========================================================================== */
+    .protocol-timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      position: relative;
+      margin-top: 40px;
+    }
+
+    .protocol-step-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    .protocol-step-number {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--accent-amber);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .protocol-step-icon {
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border-hairline-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .protocol-step-title {
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      line-height: 1.25;
+    }
+
+    .protocol-step-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .protocol-step-metric {
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-hairline);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--accent-titanium);
+    }
+
+    /* ==========================================================================
+       SECTION 7: RESERVATION MODAL (КВОТА БРОНИРОВАНИЯ)
+       ========================================================================== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 5, 7, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-backdrop.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-window {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-hairline-light);
+      width: 100%;
+      max-width: 680px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: clamp(24px, 4vw, 40px);
+      position: relative;
+      transform: translateY(24px) scale(0.98);
+      transition: transform 0.3s var(--ease-out-expo);
+      border-radius: 2px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-backdrop.is-open .modal-window {
+      transform: translateY(0) scale(1);
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border-hairline);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .modal-close-btn:hover {
+      color: var(--text-primary);
+      border-color: var(--accent-amber);
+    }
+
+    .modal-header {
+      margin-bottom: 24px;
+    }
+
+    .modal-title {
+      font-size: 1.75rem;
+      margin-bottom: 8px;
+    }
+
+    .modal-subtitle {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    /* Modal Spec Summary Box */
+    .modal-summary-card {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border-hairline);
+      padding: 16px;
+      margin-bottom: 24px;
+      font-family: var(--font-mono);
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      font-size: 0.75rem;
+    }
+
+    .modal-summary-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .modal-summary-label {
+      color: var(--text-dim);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+    }
+
+    .modal-summary-val {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .form-input, .form-select {
+      background: #040507;
+      border: 1px solid var(--border-hairline);
+      padding: 12px 14px;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.2s ease;
+      width: 100%;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--accent-amber);
+    }
+
+    .channel-radio-group {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .channel-radio-btn {
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-hairline);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-align: center;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+    }
+
+    .channel-radio-btn.is-active {
+      border-color: var(--accent-amber);
+      color: var(--text-primary);
+      background: rgba(255, 77, 0, 0.08);
+    }
+
+    /* Success Screen in Modal */
+    .modal-success-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    .success-ticket-box {
+      margin: 20px 0;
+      padding: 20px;
+      background: #040507;
+      border: 1px dashed var(--accent-amber);
+      width: 100%;
+      max-width: 420px;
+      font-family: var(--font-mono);
+      text-align: left;
+    }
+
+    /* ==========================================================================
+       SECTION 8: MANIFESTO & FOOTER
+       ========================================================================== */
+    .manifesto-section {
+      background: #040406;
+      padding: clamp(80px, 12vh, 140px) 0;
+      border-bottom: 1px solid var(--border-hairline);
+      position: relative;
+    }
+
+    .manifesto-quote {
+      font-size: clamp(1.8rem, 3.4vw, 3.2rem);
+      line-height: 1.25;
+      color: var(--text-primary);
+      max-width: 1020px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .manifesto-author {
+      margin-top: 32px;
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Footer */
+    .site-footer {
+      background: #020203;
+      padding: 60px 0 32px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+
+    .footer-col-title {
+      color: var(--text-primary);
+      font-size: 0.8rem;
+      margin-bottom: 16px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-amber);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--border-hairline);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE BREAKPOINTS (MOBILE FIRST TWEAKS)
+       ========================================================================== */
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .bento-span-7, .bento-span-5, .bento-span-6 {
+        grid-column: span 12;
+      }
+      .configurator-wrapper {
+        grid-template-columns: 1fr;
+      }
+      .config-preview-panel {
+        position: relative;
+        top: 0;
+      }
+      .catalog-grid {
+        grid-template-columns: 1fr;
+      }
+      .protocol-timeline {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .top-status-left {
+        font-size: 0.65rem;
+      }
+      .top-status-right {
+        display: none;
+      }
+      .nav-links {
+        display: none;
+      }
+      .mobile-menu-btn {
+        display: flex;
+      }
+      .hero-metrics-bar {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+      .protocol-timeline {
+        grid-template-columns: 1fr;
+      }
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .modal-summary-card {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SVG Grain Texture Overlay -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- Technical Status Bar (Top) -->
+  <aside class="top-status-bar" aria-label="Лабораторный статус">
+    <div class="container top-status-content">
+      <div class="top-status-left">
+        <span class="top-status-item">
+          <span class="pulse-dot"></span>
+          <span class="status-badge-live">GENEVA LAB</span>
+        </span>
+        <span class="top-status-item">// КАЛИБР K-09 В СБОРКЕ</span>
+        <span class="top-status-item">// ДОСТУПНАЯ КВОТА НА 2026: <strong style="color:var(--text-primary); margin-left:4px;">4 ЭКЗЕМПЛЯРА</strong></span>
+      </div>
+      <div class="top-status-right">
+        <span>46.2044° N, 6.1432° E</span>
+        <span style="color: var(--accent-amber);" id="geneva-clock">12:00:00 CET</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Sticky Header -->
+  <header class="main-header" id="site-header">
+    <div class="container header-inner">
+      <a href="#" class="logo-block" aria-label="KRONOS Horology Lab Главная">
+        <div class="logo-symbol">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="logo-text">
+          KRONOS <span>// LAB</span>
+        </div>
+      </a>
+
+      <!-- Navigation Anchors -->
+      <nav aria-label="Основная навигация">
+        <ul class="nav-links">
+          <li><a href="#calibres" class="nav-link">Калибры</a></li>
+          <li><a href="#engineering" class="nav-link">Инженерия</a></li>
+          <li><a href="#configurator" class="nav-link">Конфигуратор</a></li>
+          <li><a href="#protocol" class="nav-link">Протокол</a></li>
+          <li><a href="#manifest" class="nav-link">Манифест</a></li>
+        </ul>
+      </nav>
+
+      <!-- Header CTAs & Sound -->
+      <div class="header-actions">
+        <button class="sound-toggle-btn" id="header-sound-btn" title="Аудиосистема калибра (4 Hz Escapement)">
+          <div class="sound-bars">
+            <span class="sound-bar"></span>
+            <span class="sound-bar"></span>
+            <span class="sound-bar"></span>
+          </div>
+          <span id="sound-btn-text">28 800 VPH</span>
+        </button>
+
+        <button class="btn-cta" onclick="openReservationModal()">
+          <span class="pulse-dot"></span>
+          <span>Собрать калибр [→]</span>
+        </button>
+
+        <button class="mobile-menu-btn" id="mobile-menu-toggle" aria-label="Открыть меню">
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       SECTION 1: HERO (ТИПОГРАФИКА + ИНТЕРАКТИВНЫЙ СКЕЛЕТОН K-09)
+       ========================================================================== -->
+  <section class="hero-section" id="hero">
+    <div class="blueprint-grid-bg"></div>
+
+    <div class="container">
+      <div class="hero-grid">
+        <!-- Left: Typography & Metrics -->
+        <div class="hero-content">
+          <div class="hero-meta-badge">
+            <span class="tech-tag amber">
+              <span class="pulse-dot"></span> MANUFACTURE GENÈVE
+            </span>
+            <span class="tech-tag">CH-1204 REF. K-09 APEX</span>
+          </div>
+
+          <h1 class="hero-title">
+            Механика, высеченная из титана и <span class="editorial-accent">пустоты.</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            Штучные открытые турбийоны весом 28.4 грамма с ударопрочностью мостов до 5 000 G. Карбон TPT, монокристаллический сапфир и ручная отделка каждого фасета в Женеве.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#configurator" class="btn-cta" style="padding: 14px 28px; font-size: 0.85rem;">
+              <span>Конфигуратор калибра K-09</span>
+              <span style="font-family: var(--font-mono);">[→]</span>
+            </a>
+            <a href="#engineering" class="btn-cta btn-cta-secondary" style="padding: 14px 24px; font-size: 0.85rem;">
+              <span>Исследовать инженерию ↓</span>
+            </a>
+          </div>
+
+          <!-- Bottom Metric Bar -->
+          <div class="hero-metrics-bar tech-crosshair">
+            <div class="metric-card">
+              <div class="metric-value">28.4 <span class="metric-unit">г</span></div>
+              <div class="metric-label">Масса на руке (Корпус + Калибр)</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value">120 <span class="metric-unit">ч</span></div>
+              <div class="metric-label">Запас хода (Twin Barrel)</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value">5 000 <span class="metric-unit">G</span></div>
+              <div class="metric-label">Ударопрочность мостов</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-value">12 <span class="metric-unit">шт</span></div>
+              <div class="metric-label">Годовой лимит ателье</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Interactive SVG Watch Skeleton (3D Parallax & Live Movement) -->
+        <div class="hero-visual-col" id="hero-3d-stage">
+          <div class="hero-calibre-stage" id="hero-calibre-disc">
+            <div class="stage-glow-ambient"></div>
+
+            <!-- Callout Badges -->
+            <div class="tech-callout tech-callout-1">
+              <span>TWIN BARREL // 120H</span>
+              <span>GRADE 5 TITANIUM SKELETON</span>
+            </div>
+            <div class="tech-callout tech-callout-2">
+              <span>FLYING TOURBILLON</span>
+              <span>28 800 VPH (4 HZ) ESCAPEMENT</span>
+            </div>
+
+            <!-- High-Detail Pure SVG Watch Mechanism (Interactive) -->
+            <svg class="calibre-svg-root" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <!-- Titanium bezel gradient -->
+                <radialGradient id="titanium-radial" cx="50%" cy="50%" r="50%">
+                  <stop offset="60%" stop-color="#1b1d24"/>
+                  <stop offset="85%" stop-color="#2a2d38"/>
+                  <stop offset="98%" stop-color="#101116"/>
+                  <stop offset="100%" stop-color="#0a0a0d"/>
+                </radialGradient>
+
+                <!-- Carbon TPT texture pattern -->
+                <pattern id="carbon-texture" width="40" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(25)">
+                  <line x1="0" y1="0" x2="40" y2="0" stroke="#1f222b" stroke-width="3"/>
+                  <line x1="0" y1="8" x2="40" y2="8" stroke="#131418" stroke-width="4"/>
+                  <line x1="0" y1="15" x2="40" y2="15" stroke="#252934" stroke-width="2"/>
+                </pattern>
+
+                <!-- Metallic Gear Gradient -->
+                <linearGradient id="gear-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#d4af37"/>
+                  <stop offset="50%" stop-color="#aa820a"/>
+                  <stop offset="100%" stop-color="#554105"/>
+                </linearGradient>
+
+                <linearGradient id="gear-titanium" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#8e95a5"/>
+                  <stop offset="45%" stop-color="#464b58"/>
+                  <stop offset="100%" stop-color="#22252c"/>
+                </linearGradient>
+
+                <!-- Lume Filter Glow -->
+                <filter id="lume-glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="3.5" result="blur"/>
+                  <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+
+              <!-- OUTER BEZEL & TORX CASE SCREWS -->
+              <rect x="25" y="25" width="450" height="450" rx="90" fill="url(#carbon-texture)" stroke="#2f333f" stroke-width="2"/>
+              <rect x="35" y="35" width="430" height="430" rx="82" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+
+              <!-- 8 Spline Screws (Grade 5 Titanium) -->
+              <!-- Top & Bottom Screws -->
+              <circle cx="100" cy="50" r="7" fill="#585d6d" stroke="#15171d" stroke-width="2"/>
+              <path d="M100 46v8M96 50h8" stroke="#15171d" stroke-width="1.8"/>
+              <circle cx="400" cy="50" r="7" fill="#585d6d" stroke="#15171d" stroke-width="2"/>
+              <path d="M400 46v8M396 50h8" stroke="#15171d" stroke-width="1.8"/>
+
+              <circle cx="50" cy="100" r="7" fill="#585d6d" stroke="#15171d" stroke-width="2"/>
+              <path d="M50 96v8M46 100h8" stroke="#15171d" stroke-width="1.8"/>
+              <circle cx="450" cy="100" r="7" fill="#585d6d" stroke="#15171d" stroke-width="2"/>
+              <path d="M450 96v8M446 100h8" stroke="#15171d" stroke-width="1.8"/>
+
+              <circle cx="50" cy="400" r="7" fill="#585d6d" stroke="#15171d" stroke-width="2"/>
+              <path d="M50 396v8M46 400h8" stroke="#15171d" stroke-width="1.8"/>
+              <circle cx="450" cy="400" r="7" fill="#585d6d" stroke="#15171d" stroke-width="2"/>
+              <path d="M450 396v8M446 400h8" stroke="#15171d" stroke-width="1.8"/>
+
+              <circle cx="100" cy="450" r="7" fill="#585d6d" stroke="#15171d" stroke-width="2"/>
+              <path d="M100 446v8M96 450h8" stroke="#15171d" stroke-width="1.8"/>
+              <circle cx="400" cy="450" r="7" fill="#585d6d" stroke="#15171d" stroke-width="2"/>
+              <path d="M400 446v8M396 450h8" stroke="#15171d" stroke-width="1.8"/>
+
+              <!-- DIAL APERTURE & CHAPTER RING -->
+              <circle cx="250" cy="250" r="188" fill="#090a0d" stroke="#2a2e3a" stroke-width="3"/>
+              <circle cx="250" cy="250" r="180" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" stroke-dasharray="3, 5"/>
+
+              <!-- Minute Track Markers -->
+              <g stroke="rgba(255, 255, 255, 0.4)" stroke-width="1.5">
+                <line x1="250" y1="72" x2="250" y2="84" stroke="var(--accent-amber)" stroke-width="3"/>
+                <line x1="428" y1="250" x2="416" y2="250" stroke="var(--accent-amber)" stroke-width="3"/>
+                <line x1="250" y1="428" x2="250" y2="416" stroke="var(--accent-amber)" stroke-width="3"/>
+                <line x1="72" y1="250" x2="84" y2="250" stroke="var(--accent-amber)" stroke-width="3"/>
+                <!-- Hour Pointers (Luminova Super-Luminova) -->
+                <circle cx="339" cy="99" r="3" fill="#ff4d00"/>
+                <circle cx="401" cy="161" r="3" fill="#ff4d00"/>
+                <circle cx="401" cy="339" r="3" fill="#ff4d00"/>
+                <circle cx="339" cy="401" r="3" fill="#ff4d00"/>
+                <circle cx="161" cy="401" r="3" fill="#ff4d00"/>
+                <circle cx="99" cy="339" r="3" fill="#ff4d00"/>
+                <circle cx="99" cy="161" r="3" fill="#ff4d00"/>
+                <circle cx="161" cy="99" r="3" fill="#ff4d00"/>
+              </g>
+
+              <!-- SKELETONIZED BASEPLATE & BRIDGES (Grade 5 Titanium Geometric Truss) -->
+              <path d="M 120 180 L 250 140 L 380 180 L 320 280 L 250 250 L 180 280 Z" fill="#141720" stroke="#333948" stroke-width="2"/>
+              <path d="M 140 310 L 250 250 L 360 310 L 250 430 Z" fill="#111319" stroke="#333948" stroke-width="2"/>
+
+              <!-- Twin Barrel Gear 1 (Top Left) -->
+              <g class="anim-gear-cw-slow" style="transform-origin: 190px 170px;">
+                <circle cx="190" cy="170" r="54" fill="none" stroke="url(#gear-titanium)" stroke-width="8" stroke-dasharray="4, 3"/>
+                <circle cx="190" cy="170" r="46" fill="#0d0e13" stroke="#252a37" stroke-width="1.5"/>
+                <!-- Spokes -->
+                <line x1="190" y1="124" x2="190" y2="216" stroke="#464d5e" stroke-width="3"/>
+                <line x1="144" y1="170" x2="236" y2="170" stroke="#464d5e" stroke-width="3"/>
+                <!-- Ruby Jewel Pivot -->
+                <circle cx="190" cy="170" r="6" fill="#ff1e42" stroke="#ff8097" stroke-width="1.5"/>
+                <circle cx="190" cy="170" r="2" fill="#fff" opacity="0.8"/>
+              </g>
+
+              <!-- Twin Barrel Gear 2 (Top Right) -->
+              <g class="anim-gear-ccw-med" style="transform-origin: 310px 170px;">
+                <circle cx="310" cy="170" r="54" fill="none" stroke="url(#gear-titanium)" stroke-width="8" stroke-dasharray="4, 3"/>
+                <circle cx="310" cy="170" r="46" fill="#0d0e13" stroke="#252a37" stroke-width="1.5"/>
+                <line x1="310" y1="124" x2="310" y2="216" stroke="#464d5e" stroke-width="3"/>
+                <line x1="264" y1="170" x2="356" y2="170" stroke="#464d5e" stroke-width="3"/>
+                <!-- Ruby Jewel Pivot -->
+                <circle cx="310" cy="170" r="6" fill="#ff1e42" stroke="#ff8097" stroke-width="1.5"/>
+                <circle cx="310" cy="170" r="2" fill="#fff" opacity="0.8"/>
+              </g>
+
+              <!-- Center Wheel Gear Train (Gold 5N PVD) -->
+              <g class="anim-gear-cw-slow" style="transform-origin: 250px 240px;">
+                <circle cx="250" cy="240" r="38" fill="none" stroke="url(#gear-gold)" stroke-width="5" stroke-dasharray="3, 2"/>
+                <circle cx="250" cy="240" r="28" fill="#181710" stroke="#aa820a" stroke-width="1"/>
+                <circle cx="250" cy="240" r="5" fill="#ff1e42"/>
+              </g>
+
+              <!-- FLYING TOURBILLON CAGE AT 6 O'CLOCK -->
+              <g id="tourbillon-assembly">
+                <!-- Outer aperture ring -->
+                <circle cx="250" cy="340" r="58" fill="#06070a" stroke="rgba(255, 77, 0, 0.3)" stroke-width="1.5"/>
+
+                <!-- Balance Wheel Rim with Gold Inertia Weights -->
+                <g class="anim-balance-wheel">
+                  <circle cx="250" cy="340" r="44" fill="none" stroke="#aa820a" stroke-width="2"/>
+                  <!-- 4 Gold Screws on Balance Rim -->
+                  <circle cx="250" cy="296" r="2.5" fill="#ffd700"/>
+                  <circle cx="250" cy="384" r="2.5" fill="#ffd700"/>
+                  <circle cx="206" cy="340" r="2.5" fill="#ffd700"/>
+                  <circle cx="294" cy="340" r="2.5" fill="#ffd700"/>
+                  <!-- Hairspring Coil (Spiral) -->
+                  <circle cx="250" cy="340" r="16" fill="none" stroke="#00d2ff" stroke-width="0.8" opacity="0.8"/>
+                  <circle cx="250" cy="340" r="10" fill="none" stroke="#00d2ff" stroke-width="0.8" opacity="0.8"/>
+                </g>
+
+                <!-- Rotating Flying Tourbillon Cage (Grade 5 Titanium Bridge) -->
+                <g class="anim-tourbillon-cage">
+                  <!-- Tri-Arm Cage Bridge -->
+                  <path d="M 250 340 L 250 300 M 250 340 L 216 360 M 250 340 L 284 360" stroke="#c8ccd4" stroke-width="3" stroke-linecap="round"/>
+                  <circle cx="250" cy="340" r="7" fill="#1b1e28" stroke="#8e95a5" stroke-width="1.5"/>
+                  <!-- Center Tourbillon Ruby Chatton -->
+                  <circle cx="250" cy="340" r="4.5" fill="#ff1e42" stroke="#ffa3b4" stroke-width="1"/>
+                  <circle cx="251" cy="339" r="1.5" fill="#ffffff"/>
+                  <!-- Escapement Pallet Ruby -->
+                  <rect x="238" y="318" width="4" height="6" rx="1" fill="#ff1e42"/>
+                </g>
+              </g>
+
+              <!-- SKELETONIZED HANDS (Hours & Minutes with Luminous Inserts) -->
+              <!-- Hour Hand -->
+              <g class="anim-hands-hours">
+                <!-- Skeletonized Titanium Truss Hand -->
+                <path d="M 246 250 L 244 140 L 250 120 L 256 140 L 254 250 Z" fill="#202430" stroke="#c8ccd4" stroke-width="1.5"/>
+                <!-- Super-LumiNova Inlay -->
+                <polygon points="248,150 252,150 250,126" fill="var(--accent-amber)" filter="url(#lume-glow)"/>
+                <!-- Counterweight ring -->
+                <circle cx="250" cy="270" r="9" fill="#1b1d24" stroke="#c8ccd4" stroke-width="1.5"/>
+              </g>
+
+              <!-- Minute Hand -->
+              <g class="anim-hands-minutes">
+                <path d="M 247 250 L 245 95 L 250 75 L 255 95 L 253 250 Z" fill="#262b3a" stroke="#ffffff" stroke-width="1.5"/>
+                <polygon points="248,110 252,110 250,80" fill="var(--accent-amber)" filter="url(#lume-glow)"/>
+                <circle cx="250" cy="275" r="11" fill="#1b1d24" stroke="#ffffff" stroke-width="1.5"/>
+              </g>
+
+              <!-- Central Cannon Pinion Cap -->
+              <circle cx="250" cy="250" r="8" fill="#15171d" stroke="#c8ccd4" stroke-width="2"/>
+              <circle cx="250" cy="250" r="3" fill="#ff4d00"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION 2: ANATOMY OF CALIBRE (BENTO GRID + INTERACTIVE X-RAY)
+       ========================================================================== -->
+  <section class="section-padding" id="engineering">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">
+          <span class="pulse-dot"></span> 01 // АНАТОМИЯ КАЛИБРА K-09
+        </span>
+        <h2 class="section-title">
+          Инженерия предельных нагрузок. Без единого грамма лишнего металла.
+        </h2>
+        <p class="section-subtitle">
+          Архитектура скелетонизированного механизма создана на стыке швейцарских хронометрических традиций и авиакосмических материалов.
+        </p>
+      </div>
+
+      <!-- Bento Grid with Mouse Cursor Border Glow -->
+      <div class="bento-grid">
+        <!-- 1. Forged Carbon TPT (Span 7) -->
+        <article class="bento-card bento-span-7" data-bento-card>
+          <span class="crosshair-tl">+</span><span class="crosshair-tr">+</span>
+          <div class="bento-card-inner">
+            <div>
+              <span class="bento-tag">МАТЕРИАЛ КОРПУСА // TPT® COMPOSITE</span>
+              <h3 class="bento-title">Кованый карбон высокой плотности</h3>
+              <p class="bento-desc">
+                Сотни слоев параллельных углеродных нитей толщиной 30 микрон, пропитанных термореактивной смолой и ориентированных под углом 45°. Спекание в автоклаве при давлении 6 бар и температуре 120°C создает уникальный волокнистый рисунок, неповторимый в каждом экземпляре.
+              </p>
+            </div>
+
+            <!-- Visual Dashboard of Sintering & Density -->
+            <div class="carbon-telemetry-grid">
+              <div class="carbon-telemetry-item">
+                <div class="carbon-telemetry-label">Температура спекания</div>
+                <div class="carbon-telemetry-val" style="color:var(--accent-amber);">120°C / 6 BAR</div>
+              </div>
+              <div class="carbon-telemetry-item">
+                <div class="carbon-telemetry-label">Плотность материала</div>
+                <div class="carbon-telemetry-val">1.78 г/см³</div>
+              </div>
+              <div class="carbon-telemetry-item">
+                <div class="carbon-telemetry-label">Толщина монослоя</div>
+                <div class="carbon-telemetry-val">30 µm PREPREG</div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. Grade 5 Titanium Bridges (Span 5) -->
+        <article class="bento-card bento-span-5" data-bento-card>
+          <span class="crosshair-tl">+</span><span class="crosshair-tr">+</span>
+          <div class="bento-card-inner">
+            <div>
+              <span class="bento-tag">МОСТЫ КАЛИБРА // TI-6AL-4V</span>
+              <h3 class="bento-title">Титан Grade 5 Micro-blasted</h3>
+              <p class="bento-desc">
+                Сплав из 90% титана, 6% алюминия и 4% ванадия обеспечивает предел прочности 950 МПа при весе на 40% легче стали. Скелетонизированная ферменная геометрия гасит торсионные деформации.
+              </p>
+            </div>
+
+            <!-- FEA Stress Distribution Micro-Schematic -->
+            <div class="fea-stress-box">
+              <svg width="100%" height="100%" viewBox="0 0 300 160" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="fea-grad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stop-color="#00d2ff" stop-opacity="0.8"/>
+                    <stop offset="50%" stop-color="#00ff9d" stop-opacity="0.8"/>
+                    <stop offset="85%" stop-color="#ff4d00" stop-opacity="0.9"/>
+                    <stop offset="100%" stop-color="#ff1e42" stop-opacity="1"/>
+                  </linearGradient>
+                </defs>
+                <!-- Wireframe Truss Bridge -->
+                <path d="M 30 130 L 100 40 L 200 40 L 270 130 Z" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+                <path d="M 100 40 L 150 130 L 200 40" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+                <!-- Finite Element Heatmap Contour -->
+                <path d="M 35 125 Q 100 45 150 120 T 265 125" fill="none" stroke="url(#fea-grad)" stroke-width="4"/>
+                <!-- Vector Stress Points -->
+                <circle cx="100" cy="40" r="4" fill="#ff4d00"/>
+                <circle cx="200" cy="40" r="4" fill="#ff4d00"/>
+                <circle cx="150" cy="130" r="3" fill="#00ff9d"/>
+                <text x="35" y="30" font-family="var(--font-mono)" font-size="9" fill="var(--text-dim)">FEA LOAD TEST // 5000G SHOCK SIM</text>
+                <text x="220" y="30" font-family="var(--font-mono)" font-size="9" fill="var(--accent-amber)">MAX: 840 MPa</text>
+              </svg>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. Flying Minute Tourbillon with Day / Night Mode Switch (Span 6) -->
+        <article class="bento-card bento-span-6 lume-card" id="tourbillon-card" data-bento-card>
+          <span class="crosshair-tl">+</span><span class="crosshair-tr">+</span>
+          <div class="bento-card-inner">
+            <div>
+              <span class="bento-tag">СВОБОДНЫЙ СПУСК // 60 SEC ROTATION</span>
+              <h3 class="bento-title">Парящий минутный турбийон</h3>
+              <p class="bento-desc">
+                Клеть весом всего 0.28 грамма парит без верхнего моста на керамических шарикоподшипниках. Компенсирует гравитационную погрешность хода в вертикальных положениях.
+              </p>
+            </div>
+
+            <!-- Mini Tourbillon Day / Night Preview SVG -->
+            <div style="height: 180px; display: flex; align-items: center; justify-content: center; position: relative;">
+              <svg width="160" height="160" viewBox="0 0 160 160" class="tourbillon-lume-glow">
+                <circle cx="80" cy="80" r="70" fill="#08090d" stroke="rgba(255,255,255,0.1)" stroke-width="2"/>
+                <g class="anim-tourbillon-cage" style="transform-origin: 80px 80px;">
+                  <!-- Balance Rim -->
+                  <circle cx="80" cy="80" r="50" fill="none" stroke="currentColor" stroke-width="2.5"/>
+                  <circle cx="80" cy="35" r="3" fill="#ffd700"/>
+                  <circle cx="80" cy="125" r="3" fill="#ffd700"/>
+                  <circle cx="35" cy="80" r="3" fill="#ffd700"/>
+                  <circle cx="125" cy="80" r="3" fill="#ffd700"/>
+                  <!-- Titanium Bridge -->
+                  <path d="M 80 80 L 80 45 M 80 80 L 50 100 M 80 80 L 110 100" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                  <!-- Ruby Jewel -->
+                  <circle cx="80" cy="80" r="5" fill="#ff1e42"/>
+                </g>
+              </svg>
+            </div>
+
+            <!-- Day / Night Mode Switcher Button -->
+            <button class="lume-toggle-btn" id="lume-mode-btn" onclick="toggleTourbillonLume()">
+              <span class="pulse-dot" style="background-color: var(--accent-emerald); box-shadow: 0 0 8px #00ff9d;"></span>
+              <span id="lume-btn-label">Включить ночной режим Super-LumiNova</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- 4. Escapement Sound & Frequency 28,800 vph (Span 6) -->
+        <article class="bento-card bento-span-6" data-bento-card>
+          <span class="crosshair-tl">+</span><span class="crosshair-tr">+</span>
+          <div class="bento-card-inner">
+            <div>
+              <span class="bento-tag">АКУСТИЧЕСКИЙ РЕЗОНАНС // 4 HZ ESCAPEMENT</span>
+              <h3 class="bento-title">Частота анкерного хода 28 800 пк/ч</h3>
+              <p class="bento-desc">
+                8 полуколебаний в секунду. Каждый удар рубиновой палеты по зубу анкерного колеса откалиброван по акустическому тембру и частотному резонансу в корпусе.
+              </p>
+            </div>
+
+            <!-- Audio API Generator & Visualizer -->
+            <div class="audio-demo-container">
+              <div class="audio-play-row">
+                <button class="btn-audio-tick" id="bento-audio-btn" onclick="toggleAudioTick()">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                  </svg>
+                  <span id="bento-audio-btn-label">Прослушать 28 800 пк/ч</span>
+                </button>
+                <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted);">
+                  4.0 HZ // REALTIME SYNTH
+                </div>
+              </div>
+
+              <!-- Animated Oscilloscope Waveform -->
+              <div class="audio-oscilloscope">
+                <canvas id="oscilloscope-canvas" class="audio-canvas-wave" width="400" height="48"></canvas>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION 3: BESPOKE CONFIGURATOR (ИНДИВИДУАЛЬНАЯ СБОРКА)
+       ========================================================================== -->
+  <section class="section-padding" id="configurator">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">
+          <span class="pulse-dot"></span> 02 // ИНДИВИДУАЛЬНАЯ СБОРКА (BESPOKE CONFIGURATOR)
+        </span>
+        <h2 class="section-title">
+          Сконфигурируйте единственный в мире экземпляр.
+        </h2>
+        <p class="section-subtitle">
+          Инженерный кастомизатор мануфактуры: выбор материалов корпуса, покрытия мостов, спектра люминофора и персональная лазерная гравировка ротора.
+        </p>
+      </div>
+
+      <div class="configurator-wrapper">
+        <!-- LEFT COLUMN: DYNAMIC PREVIEW & LIVE TELEMETRY -->
+        <div class="config-preview-panel">
+          <span class="crosshair-tl">+</span><span class="crosshair-tr">+</span>
+
+          <!-- Dynamic SVG Watch Render reacting in real-time -->
+          <div class="config-preview-stage">
+            <svg id="config-watch-svg" viewBox="0 0 400 400" width="100%" height="100%" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <!-- Case Gradients -->
+                <!-- 1. Titanium Micro-blasted -->
+                <linearGradient id="cfg-case-ti" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#414652"/>
+                  <stop offset="50%" stop-color="#2a2e38"/>
+                  <stop offset="100%" stop-color="#181a21"/>
+                </linearGradient>
+
+                <!-- 2. Forged Carbon Pattern -->
+                <linearGradient id="cfg-case-carbon" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#20222a"/>
+                  <stop offset="50%" stop-color="#0f1014"/>
+                  <stop offset="100%" stop-color="#060608"/>
+                </linearGradient>
+
+                <!-- 3. Sapphire Monobloc (Translucent crystalline glass) -->
+                <linearGradient id="cfg-case-sapphire" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="rgba(120, 200, 240, 0.45)"/>
+                  <stop offset="50%" stop-color="rgba(50, 100, 140, 0.2)"/>
+                  <stop offset="100%" stop-color="rgba(15, 30, 45, 0.5)"/>
+                </linearGradient>
+
+                <!-- Bridge Coating Gradients -->
+                <!-- PVD Graphite (Default) -->
+                <linearGradient id="cfg-bridge-pvd" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#2c303c"/>
+                  <stop offset="100%" stop-color="#121319"/>
+                </linearGradient>
+                <!-- Gold 5N PVD -->
+                <linearGradient id="cfg-bridge-gold" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#e2ba55"/>
+                  <stop offset="50%" stop-color="#aa8322"/>
+                  <stop offset="100%" stop-color="#483307"/>
+                </linearGradient>
+                <!-- Platinum Rhodium -->
+                <linearGradient id="cfg-bridge-rhodium" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#f0f2f7"/>
+                  <stop offset="50%" stop-color="#b0b5c4"/>
+                  <stop offset="100%" stop-color="#555a68"/>
+                </linearGradient>
+
+                <!-- Dynamic Lume Color Glow Filter -->
+                <filter id="cfg-lume-filter" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="3" result="blur"/>
+                  <feMerge>
+                    <feMergeNode in="blur"/>
+                    <feMergeNode in="SourceGraphic"/>
+                  </feMerge>
+                </filter>
+              </defs>
+
+              <!-- STRAP (UPPER & LOWER) -->
+              <!-- Upper strap segment -->
+              <path id="cfg-strap-top" d="M 140 20 L 140 60 L 260 60 L 260 20 Z" fill="#131418" stroke="#2c303b" stroke-width="1.5"/>
+              <!-- Lower strap segment -->
+              <path id="cfg-strap-bottom" d="M 140 340 L 140 380 L 260 380 L 260 340 Z" fill="#131418" stroke="#2c303b" stroke-width="1.5"/>
+
+              <!-- WATCH CASE & BEZEL -->
+              <rect id="cfg-case-rect" x="40" y="40" width="320" height="320" rx="65" fill="url(#cfg-case-ti)" stroke="#585e70" stroke-width="2"/>
+              <rect x="52" y="52" width="296" height="296" rx="58" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+
+              <!-- 8 Torx Titanium Screws -->
+              <circle cx="90" cy="65" r="5" fill="#7a8296"/><circle cx="310" cy="65" r="5" fill="#7a8296"/>
+              <circle cx="65" cy="90" r="5" fill="#7a8296"/><circle cx="335" cy="90" r="5" fill="#7a8296"/>
+              <circle cx="65" cy="310" r="5" fill="#7a8296"/><circle cx="335" cy="310" r="5" fill="#7a8296"/>
+              <circle cx="90" cy="335" r="5" fill="#7a8296"/><circle cx="310" cy="335" r="5" fill="#7a8296"/>
+
+              <!-- INNER DIAL APERTURE -->
+              <circle cx="200" cy="200" r="135" fill="#090a0d" stroke="rgba(255,255,255,0.08)" stroke-width="2"/>
+
+              <!-- SKELETON BRIDGES (COATING ADAPTIVE) -->
+              <path id="cfg-bridge-mesh" d="M 100 150 L 200 115 L 300 150 L 260 230 L 200 200 L 140 230 Z" fill="url(#cfg-bridge-pvd)" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+              <path id="cfg-bridge-lower" d="M 120 250 L 200 200 L 280 250 L 200 320 Z" fill="url(#cfg-bridge-pvd)" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+
+              <!-- Gear Train (Gears) -->
+              <circle cx="150" cy="140" r="35" fill="none" stroke="#606678" stroke-width="4" stroke-dasharray="3, 2"/>
+              <circle cx="250" cy="140" r="35" fill="none" stroke="#606678" stroke-width="4" stroke-dasharray="3, 2"/>
+              <circle cx="150" cy="140" r="5" fill="#ff1e42"/>
+              <circle cx="250" cy="140" r="5" fill="#ff1e42"/>
+
+              <!-- ROTOR ENGRAVING RING WITH LIVE USER TEXT -->
+              <path id="cfg-rotor-path" d="M 110 200 A 90 90 0 0 1 290 200" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="16"/>
+              <!-- Live Engraving Text -->
+              <text font-family="var(--font-mono)" font-size="9" fill="var(--text-primary)" letter-spacing="2">
+                <textPath id="cfg-rotor-text-path" href="#cfg-rotor-path" startOffset="50%" text-anchor="middle">
+                  KRONOS // GENÈVE
+                </textPath>
+              </text>
+
+              <!-- TOURBILLON APERTURE & ROTATING CAGE -->
+              <circle cx="200" cy="270" r="42" fill="#040507" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>
+              <g class="anim-tourbillon-cage" style="transform-origin: 200px 270px;">
+                <circle cx="200" cy="270" r="34" fill="none" stroke="#aa820a" stroke-width="1.5"/>
+                <path d="M 200 270 L 200 240 M 200 270 L 174 285 M 200 270 L 226 285" stroke="#c8ccd4" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="200" cy="270" r="4" fill="#ff1e42"/>
+              </g>
+
+              <!-- HOUR MARKERS WITH DYNAMIC SUPER-LUMINOVA -->
+              <g id="cfg-lume-markers" filter="url(#cfg-lume-filter)">
+                <circle cx="200" cy="78" r="3" fill="#ff4d00"/>
+                <circle cx="322" cy="200" r="3" fill="#ff4d00"/>
+                <circle cx="200" cy="322" r="3" fill="#ff4d00"/>
+                <circle cx="78" cy="200" r="3" fill="#ff4d00"/>
+              </g>
+
+              <!-- SKELETON HANDS WITH DYNAMIC LUMINOUS INSERTS -->
+              <!-- Hours -->
+              <g class="anim-hands-hours" style="transform-origin: 200px 200px;">
+                <path d="M 197 200 L 196 115 L 200 100 L 204 115 L 203 200 Z" fill="#202430" stroke="#fff" stroke-width="1.2"/>
+                <polygon id="cfg-hand-lume-hour" points="198,122 202,122 200,105" fill="#ff4d00" filter="url(#cfg-lume-filter)"/>
+              </g>
+              <!-- Minutes -->
+              <g class="anim-hands-minutes" style="transform-origin: 200px 200px;">
+                <path d="M 198 200 L 197 80 L 200 68 L 203 80 L 202 200 Z" fill="#202430" stroke="#fff" stroke-width="1.2"/>
+                <polygon id="cfg-hand-lume-min" points="198,90 202,90 200,72" fill="#ff4d00" filter="url(#cfg-lume-filter)"/>
+              </g>
+              <circle cx="200" cy="200" r="6" fill="#15171d" stroke="#c8ccd4" stroke-width="1.5"/>
+            </svg>
+          </div>
+
+          <!-- Live Specification Badge -->
+          <div class="config-spec-badge-bar">
+            <div class="config-spec-item">
+              <span class="config-spec-label">Масса на руке</span>
+              <span class="config-spec-val" id="cfg-stat-weight">31.0 г</span>
+            </div>
+            <div class="config-spec-item">
+              <span class="config-spec-label">Калибр</span>
+              <span class="config-spec-val">K-09 TOURBILLON</span>
+            </div>
+            <div class="config-spec-item">
+              <span class="config-spec-label">Водозащита</span>
+              <span class="config-spec-val">50 M // 5 ATM</span>
+            </div>
+            <div class="config-sku-tag">
+              <span>АРТИКУЛ СБОРКИ:</span>
+              <strong id="cfg-stat-sku">KRN-09-TI-PVD-ORG</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: CONFIGURATION CONTROLS -->
+        <div class="config-controls-panel">
+          <!-- 1. Case Material -->
+          <div class="config-group">
+            <div class="config-group-header">
+              <span class="config-group-title">
+                <span>01 // МАТЕРИАЛ КОРПУСА</span>
+              </span>
+              <span class="config-group-badge">AEROSPACE GRADE</span>
+            </div>
+            <div class="config-options-grid">
+              <!-- Titanium -->
+              <div class="config-option-card is-selected" data-opt-group="case" data-opt-val="ti" data-price="42000" data-weight="31" data-sku="TI" onclick="selectConfigOption(this)">
+                <div class="option-title">Титан Grade 5 Micro-blasted</div>
+                <div class="option-meta">
+                  <span class="option-price">$42,000</span>
+                  <span class="option-detail">31 г</span>
+                </div>
+              </div>
+              <!-- Carbon TPT -->
+              <div class="config-option-card" data-opt-group="case" data-opt-val="carbon" data-price="48500" data-weight="26" data-sku="TPT" onclick="selectConfigOption(this)">
+                <div class="option-title">Кованый карбон TPT®</div>
+                <div class="option-meta">
+                  <span class="option-price">+$6,500</span>
+                  <span class="option-detail">26 г</span>
+                </div>
+              </div>
+              <!-- Sapphire -->
+              <div class="config-option-card" data-opt-group="case" data-opt-val="sapphire" data-price="60000" data-weight="34" data-sku="SAP" onclick="selectConfigOption(this)">
+                <div class="option-title">Сапфировый моноблок</div>
+                <div class="option-meta">
+                  <span class="option-price">+$18,000</span>
+                  <span class="option-detail">34 г</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Movement Bridges Coating -->
+          <div class="config-group">
+            <div class="config-group-header">
+              <span class="config-group-title">
+                <span>02 // ПОКРЫТИЕ МОСТОВ КАЛИБРА</span>
+              </span>
+              <span class="config-group-badge">HAND FINISHED</span>
+            </div>
+            <div class="config-options-grid">
+              <!-- Black PVD -->
+              <div class="config-option-card is-selected" data-opt-group="bridge" data-opt-val="pvd" data-price="0" data-sku="PVD" onclick="selectConfigOption(this)">
+                <div class="option-title">Чёрный PVD-графит</div>
+                <div class="option-meta">
+                  <span class="option-price">Включено</span>
+                  <span class="option-detail">Мат</span>
+                </div>
+              </div>
+              <!-- 5N Gold -->
+              <div class="config-option-card" data-opt-group="bridge" data-opt-val="gold" data-price="3200" data-sku="5NG" onclick="selectConfigOption(this)">
+                <div class="option-title">Золото 5N PVD Rose Gold</div>
+                <div class="option-meta">
+                  <span class="option-price">+$3,200</span>
+                  <span class="option-detail">Сатин</span>
+                </div>
+              </div>
+              <!-- Rhodium -->
+              <div class="config-option-card" data-opt-group="bridge" data-opt-val="rhodium" data-price="4800" data-sku="RHO" onclick="selectConfigOption(this)">
+                <div class="option-title">Платиновый родий</div>
+                <div class="option-meta">
+                  <span class="option-price">+$4,800</span>
+                  <span class="option-detail">Зеркало</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Super-LumiNova Spectrum -->
+          <div class="config-group">
+            <div class="config-group-header">
+              <span class="config-group-title">
+                <span>03 // СПЕКТР SUPER-LUMINOVA</span>
+              </span>
+              <span class="config-group-badge">GRADE X1 LUME</span>
+            </div>
+            <div class="color-swatches-grid">
+              <!-- Volcano Amber -->
+              <div class="swatch-card is-selected" data-opt-group="lume" data-opt-val="amber" data-color="#ff4d00" data-sku="ORG" onclick="selectLumeSwatch(this)">
+                <div class="swatch-circle" style="background:#ff4d00; box-shadow: 0 0 8px #ff4d00;"></div>
+                <div>
+                  <div style="font-size:0.8rem; font-weight:600;">Вулкан</div>
+                  <div style="font-family:var(--font-mono); font-size:0.68rem; color:var(--text-muted);">Янтарный</div>
+                </div>
+              </div>
+              <!-- Krypton Emerald -->
+              <div class="swatch-card" data-opt-group="lume" data-opt-val="emerald" data-color="#00ff9d" data-sku="EMR" onclick="selectLumeSwatch(this)">
+                <div class="swatch-circle" style="background:#00ff9d; box-shadow: 0 0 8px #00ff9d;"></div>
+                <div>
+                  <div style="font-size:0.8rem; font-weight:600;">Криптон</div>
+                  <div style="font-family:var(--font-mono); font-size:0.68rem; color:var(--text-muted);">Изумрудный</div>
+                </div>
+              </div>
+              <!-- Glacier Cobalt -->
+              <div class="swatch-card" data-opt-group="lume" data-opt-val="cobalt" data-color="#00d2ff" data-sku="COB" onclick="selectLumeSwatch(this)">
+                <div class="swatch-circle" style="background:#00d2ff; box-shadow: 0 0 8px #00d2ff;"></div>
+                <div>
+                  <div style="font-size:0.8rem; font-weight:600;">Ледник</div>
+                  <div style="font-family:var(--font-mono); font-size:0.68rem; color:var(--text-muted);">Кобальтовый</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Strap & Clasp -->
+          <div class="config-group">
+            <div class="config-group-header">
+              <span class="config-group-title">
+                <span>04 // РЕМЕШОК И ТИТАНОВАЯ КЛИПСА</span>
+              </span>
+              <span class="config-group-badge">ERGONOMIC FIT</span>
+            </div>
+            <div class="config-options-grid">
+              <div class="config-option-card is-selected" data-opt-group="strap" data-opt-val="fkm" data-price="0" data-sku="FKM" onclick="selectConfigOption(this)">
+                <div class="option-title">Фторкаучук FKM вентилируемый</div>
+                <div class="option-meta">
+                  <span class="option-price">Включено</span>
+                  <span class="option-detail">Устойчив к UV</span>
+                </div>
+              </div>
+              <div class="config-option-card" data-opt-group="strap" data-opt-val="kevlar" data-price="900" data-sku="KVL" onclick="selectConfigOption(this)">
+                <div class="option-title">Тканый кевлар с титановой нитью</div>
+                <div class="option-meta">
+                  <span class="option-price">+$900</span>
+                  <span class="option-detail">Баллистический</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Custom Rotor Engraving -->
+          <div class="config-group">
+            <div class="config-group-header">
+              <span class="config-group-title">
+                <span>05 // ГРАВИРОВКА НА РОТОРЕ КАЛИБРА</span>
+              </span>
+              <span class="config-group-badge">LASER ENGRAVING</span>
+            </div>
+            <div class="engraving-box">
+              <div class="engraving-input-wrap">
+                <input type="text" class="engraving-input" id="rotor-engraving-input" maxlength="12" placeholder="KRONOS // GENÈVE" oninput="updateRotorEngraving(this.value)">
+              </div>
+              <div class="engraving-hint">
+                <span>Отображается в реальном времени на роторе калибра</span>
+                <span id="engraving-char-count">0 / 12 символов</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Final Summary Bar with Dynamic Counter -->
+          <div class="config-summary-bar">
+            <span class="crosshair-tl">+</span><span class="crosshair-tr">+</span>
+            <div class="price-display-row">
+              <div class="price-label-col">
+                <span class="price-title">Итоговая стоимость сборки</span>
+                <div class="lead-time-tag">
+                  <span class="pulse-dot"></span> Срок ручной сборки: 8–12 недель в Женеве
+                </div>
+              </div>
+              <div class="price-value-container">
+                <span class="price-currency">$</span><span id="config-total-price">42,000</span>
+              </div>
+            </div>
+
+            <button class="btn-cta" style="width: 100%; justify-content: center; padding: 16px; font-size: 0.9rem;" onclick="openReservationModalWithConfig()">
+              <span>Забронировать квоту с этой конфигурацией [→]</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION 4: LIMITED EDITIONS SHOWCASE (ВИТРИНА СЕРИЙНЫХ ЛИМИТОК)
+       ========================================================================== -->
+  <section class="section-padding" id="calibres">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">
+          <span class="pulse-dot"></span> ЛИМИТИРОВАННЫЕ СЕРИИ
+        </span>
+        <h2 class="section-title">
+          Каталог мануфактурных калибров KRONOS.
+        </h2>
+        <p class="section-subtitle">
+          Штучные лимитированные серии, доступные по предварительной аллокации.
+        </p>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div class="filter-tabs-row">
+        <button class="filter-tab-btn is-active" data-filter="all" onclick="filterCatalog('all', this)">Все модели [3]</button>
+        <button class="filter-tab-btn" data-filter="carbon" onclick="filterCatalog('carbon', this)">Кованый Карбон</button>
+        <button class="filter-tab-btn" data-filter="titanium" onclick="filterCatalog('titanium', this)">Титан Grade 5</button>
+        <button class="filter-tab-btn" data-filter="sapphire" onclick="filterCatalog('sapphire', this)">Сапфировый моноблок</button>
+      </div>
+
+      <!-- Catalog Grid -->
+      <div class="catalog-grid" id="catalog-items-grid">
+        <!-- 1. K-01 VORTEX -->
+        <article class="catalog-card" data-category="carbon">
+          <div>
+            <div class="catalog-card-header">
+              <span class="catalog-model-id">REF. KRN-01-VTX</span>
+              <span class="catalog-limit-badge">ЛИМИТ: 5 ЭКЗ.</span>
+            </div>
+
+            <!-- Vector Preview of Vortex -->
+            <div class="catalog-visual-wrap">
+              <svg viewBox="0 0 200 200" width="160" height="160">
+                <rect x="20" y="20" width="160" height="160" rx="35" fill="#131418" stroke="#ff4d00" stroke-width="1.5"/>
+                <circle cx="100" cy="100" r="60" fill="#090a0d" stroke="rgba(255,255,255,0.1)"/>
+                <g class="anim-gear-cw-slow" style="transform-origin: 100px 100px;">
+                  <circle cx="100" cy="100" r="45" fill="none" stroke="#ff4d00" stroke-width="2" stroke-dasharray="4, 4"/>
+                  <line x1="100" y1="60" x2="100" y2="140" stroke="#ff4d00" stroke-width="2"/>
+                </g>
+                <circle cx="100" cy="130" r="18" fill="#040507" stroke="#fff" stroke-width="1"/>
+                <circle cx="100" cy="130" r="3" fill="#ff1e42"/>
+              </svg>
+            </div>
+
+            <h3 class="catalog-name">K-01 // VORTEX</h3>
+            <div class="catalog-material">Карбон TPT® // Двойной синхронизированный турбийон</div>
+
+            <!-- Technical Accordion with animated meters -->
+            <div class="catalog-accordion">
+              <div class="spec-meter-row">
+                <div class="spec-meter-header">
+                  <span>Ударопрочность мостов</span>
+                  <span>5 000 G</span>
+                </div>
+                <div class="spec-meter-bar"><div class="spec-meter-fill" style="width: 100%;"></div></div>
+              </div>
+              <div class="spec-meter-row">
+                <div class="spec-meter-header">
+                  <span>Запас хода</span>
+                  <span>96 Ч</span>
+                </div>
+                <div class="spec-meter-bar"><div class="spec-meter-fill" style="width: 80%;"></div></div>
+              </div>
+              <div class="spec-meter-row">
+                <div class="spec-meter-header">
+                  <span>Скелетонизация</span>
+                  <span>92% объема</span>
+                </div>
+                <div class="spec-meter-bar"><div class="spec-meter-fill" style="width: 92%;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="catalog-footer">
+            <span class="catalog-price">$68,000</span>
+            <button class="btn-cta btn-cta-secondary" style="padding: 8px 14px; font-size: 0.72rem;" onclick="loadPresetToConfig('carbon', 'pvd', 'amber')">
+              Конфигурировать [→]
+            </button>
+          </div>
+        </article>
+
+        <!-- 2. K-04 ECLIPSE -->
+        <article class="catalog-card" data-category="titanium">
+          <div>
+            <div class="catalog-card-header">
+              <span class="catalog-model-id">REF. KRN-04-ECL</span>
+              <span class="catalog-limit-badge">ЛИМИТ: 8 ЭКЗ.</span>
+            </div>
+
+            <div class="catalog-visual-wrap">
+              <svg viewBox="0 0 200 200" width="160" height="160">
+                <rect x="20" y="20" width="160" height="160" rx="35" fill="#252834" stroke="#c8ccd4" stroke-width="1.5"/>
+                <circle cx="100" cy="100" r="60" fill="#090a0d" stroke="rgba(255,255,255,0.1)"/>
+                <circle cx="100" cy="100" r="48" fill="none" stroke="#00d2ff" stroke-width="1.5" stroke-dasharray="2, 4"/>
+                <circle cx="100" cy="100" r="6" fill="#ff1e42"/>
+                <line x1="100" y1="100" x2="135" y2="75" stroke="#fff" stroke-width="2"/>
+                <line x1="100" y1="100" x2="80" y2="120" stroke="#00d2ff" stroke-width="2.5"/>
+              </svg>
+            </div>
+
+            <h3 class="catalog-name">K-04 // ECLIPSE</h3>
+            <div class="catalog-material">Титан Grade 5 Micro-blasted // Мертвая секунда (Deadbeat)</div>
+
+            <div class="catalog-accordion">
+              <div class="spec-meter-row">
+                <div class="spec-meter-header">
+                  <span>Ударопрочность мостов</span>
+                  <span>4 500 G</span>
+                </div>
+                <div class="spec-meter-bar"><div class="spec-meter-fill" style="width: 90%;"></div></div>
+              </div>
+              <div class="spec-meter-row">
+                <div class="spec-meter-header">
+                  <span>Запас хода</span>
+                  <span>120 Ч</span>
+                </div>
+                <div class="spec-meter-bar"><div class="spec-meter-fill" style="width: 100%;"></div></div>
+              </div>
+              <div class="spec-meter-row">
+                <div class="spec-meter-header">
+                  <span>Скелетонизация</span>
+                  <span>88% объема</span>
+                </div>
+                <div class="spec-meter-bar"><div class="spec-meter-fill" style="width: 88%;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="catalog-footer">
+            <span class="catalog-price">$54,000</span>
+            <button class="btn-cta btn-cta-secondary" style="padding: 8px 14px; font-size: 0.72rem;" onclick="loadPresetToConfig('ti', 'rhodium', 'cobalt')">
+              Конфигурировать [→]
+            </button>
+          </div>
+        </article>
+
+        <!-- 3. K-09 APEX -->
+        <article class="catalog-card" data-category="sapphire">
+          <div>
+            <div class="catalog-card-header">
+              <span class="catalog-model-id">REF. KRN-09-APX</span>
+              <span class="catalog-limit-badge">ЛИМИТ: 3 ЭКЗ.</span>
+            </div>
+
+            <div class="catalog-visual-wrap">
+              <svg viewBox="0 0 200 200" width="160" height="160">
+                <rect x="20" y="20" width="160" height="160" rx="35" fill="rgba(60,140,190,0.25)" stroke="#00d2ff" stroke-width="2"/>
+                <circle cx="100" cy="100" r="60" fill="#06070a" stroke="rgba(0, 210, 255, 0.4)"/>
+                <g class="anim-tourbillon-cage" style="transform-origin: 100px 100px;">
+                  <circle cx="100" cy="100" r="38" fill="none" stroke="#00ff9d" stroke-width="2"/>
+                  <path d="M 100 100 L 100 70 M 100 100 L 75 115 M 100 100 L 125 115" stroke="#fff" stroke-width="2"/>
+                  <circle cx="100" cy="100" r="4" fill="#ff1e42"/>
+                </g>
+              </svg>
+            </div>
+
+            <h3 class="catalog-name">K-09 // APEX</h3>
+            <div class="catalog-material">Сапфировый моноблок 9.0 Mohs // Парящий турбийон</div>
+
+            <div class="catalog-accordion">
+              <div class="spec-meter-row">
+                <div class="spec-meter-header">
+                  <span>Твердость корпуса</span>
+                  <span>9.0 MOHS</span>
+                </div>
+                <div class="spec-meter-bar"><div class="spec-meter-fill" style="width: 98%;"></div></div>
+              </div>
+              <div class="spec-meter-row">
+                <div class="spec-meter-header">
+                  <span>Запас хода</span>
+                  <span>120 Ч</span>
+                </div>
+                <div class="spec-meter-bar"><div class="spec-meter-fill" style="width: 100%;"></div></div>
+              </div>
+              <div class="spec-meter-row">
+                <div class="spec-meter-header">
+                  <span>Скелетонизация</span>
+                  <span>96% объема</span>
+                </div>
+                <div class="spec-meter-bar"><div class="spec-meter-fill" style="width: 96%;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="catalog-footer">
+            <span class="catalog-price">$82,000</span>
+            <button class="btn-cta btn-cta-secondary" style="padding: 8px 14px; font-size: 0.72rem;" onclick="loadPresetToConfig('sapphire', 'gold', 'emerald')">
+              Конфигурировать [→]
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION 5: MANUFACTURING PROTOCOL (ПРОТОКОЛ СОЗДАНИЯ)
+       ========================================================================== -->
+  <section class="section-padding" id="protocol">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">
+          <span class="pulse-dot"></span> 03 // ПРОТОКОЛ СОЗДАНИЯ
+        </span>
+        <h2 class="section-title">
+          Путь от титановой заготовки до хронометра на вашем запястье.
+        </h2>
+        <p class="section-subtitle">
+          Четыре недели прецизионного производства, 300 часов ручной полировки фасок и строжайшая сертификация Женевского клейма.
+        </p>
+      </div>
+
+      <div class="protocol-timeline">
+        <!-- Phase 01 -->
+        <div class="protocol-step-card">
+          <span class="crosshair-tl">+</span>
+          <div class="protocol-step-number">
+            <span>PHASE 01</span>
+            <div class="protocol-step-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="protocol-step-title">5-Осевая ЧПУ фрезеровка</h3>
+          <p class="protocol-step-desc">
+            Монолитная заготовка из титана Grade 5 обрабатывается на японском станке Mori Seiki с допуском ±2 микрона. Формируются крепежные точки мостов.
+          </p>
+          <div class="protocol-step-metric">ТОЧНОСТЬ: ±0.002 MM</div>
+        </div>
+
+        <!-- Phase 02 -->
+        <div class="protocol-step-card">
+          <span class="crosshair-tl">+</span>
+          <div class="protocol-step-number">
+            <span>PHASE 02</span>
+            <div class="protocol-step-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="protocol-step-title">300 часов Anglage & Polishing</h3>
+          <p class="protocol-step-desc">
+            Каждая грань скелетонизированного моста снимается вручную деревянными притирами с алмазной пастой. Черная полировка зеркальных поверхностей (poli noir).
+          </p>
+          <div class="protocol-step-metric">ВРЕМЯ: 300+ ЧАСОВ РУЧНОЙ РАБОТЫ</div>
+        </div>
+
+        <!-- Phase 03 -->
+        <div class="protocol-step-card">
+          <span class="crosshair-tl">+</span>
+          <div class="protocol-step-number">
+            <span>PHASE 03</span>
+            <div class="protocol-step-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="protocol-step-title">Юстировка турбийона</h3>
+          <p class="protocol-step-desc">
+            Сборка и уравновешивание баланса с переменной инерцией. Волосковая пружина Breguet с концевой кривой настраивается мастером в 6 положениях.
+          </p>
+          <div class="protocol-step-metric">ПОГРЕШНОСТЬ: -1 / +2 СЕК / ДЕНЬ</div>
+        </div>
+
+        <!-- Phase 04 -->
+        <div class="protocol-step-card">
+          <span class="crosshair-tl">+</span>
+          <div class="protocol-step-number">
+            <span>PHASE 04</span>
+            <div class="protocol-step-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+          </div>
+          <h3 class="protocol-step-title">Тест 5 000 G и клеймо Женевы</h3>
+          <p class="protocol-step-desc">
+            Динамический ударный стресс-тест на маятниковом копре. Калибровка герметичности на 5 ATM и лазерная гравировка персонального номера квоты.
+          </p>
+          <div class="protocol-step-metric">СЕРТИФИКАТ: GENEVA LAB #09</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SECTION 6: MANIFESTO & PHILOSOPHY
+       ========================================================================== -->
+  <section class="manifesto-section" id="manifest">
+    <div class="container">
+      <blockquote class="manifesto-quote">
+        «Мы не продаем статус или драгоценные камни. Мы создаем <span class="font-serif-italic">кинетическую скульптуру</span> из пустоты и титана — прибор, способный выдержать перегрузку в 5000 G и пережить своего владельца на сотни лет.»
+      </blockquote>
+      <div class="manifesto-author">
+        — МАКСИМИЛЬЯН ФОН КРОНОС // ГЛАВНЫЙ КОНСТРУКТОР АТЕЛЬЕ, ЖЕНЕВА
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FOOTER (SWISS BLUEPRINT INDUSTRIAL ARCHITECTURE)
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="logo-text" style="margin-bottom: 16px;">
+            KRONOS <span style="font-size:0.8rem;">// HOROLOGY LAB</span>
+          </div>
+          <p style="color: var(--text-muted); line-height: 1.6; max-width: 320px; margin-bottom: 20px;">
+            Независимая мануфактура штучных скелетонизированных турбийонов. Женева, Швейцарская Конфедерация.
+          </p>
+          <div style="color: var(--accent-amber);">
+            КВОТА НА 2026: 4 ИЗ 12 В СВОБОДНОЙ АЛЛОКАЦИИ
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Мануфактура</div>
+          <ul class="footer-links">
+            <li><a href="#calibres">Калибр K-09 Apex</a></li>
+            <li><a href="#calibres">Калибр K-01 Vortex</a></li>
+            <li><a href="#calibres">Калибр K-04 Eclipse</a></li>
+            <li><a href="#engineering">Материал TPT® Carbon</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Консьерж-сервис</div>
+          <ul class="footer-links">
+            <li><a href="javascript:void(0)" onclick="openReservationModal()">Заказ аллокации</a></li>
+            <li><a href="#protocol">Протокол калибровки</a></li>
+            <li><a href="#configurator">Bespoke кастомизация</a></li>
+            <li><a href="#">Приватный салон в Женеве</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Лаборатория</div>
+          <div style="line-height: 1.8; color: var(--text-muted);">
+            Rue du Rhône 42<br>
+            CH-1204 Genève, Suisse<br>
+            46.2044° N, 6.1432° E<br>
+            concierge@kronos-horology.ch
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 KRONOS HOROLOGY LAB S.A. ALL RIGHTS RESERVED. SWISS MADE.</div>
+        <div style="display: flex; gap: 20px;">
+          <span>ISO 1413 SHOCK RESISTANT</span>
+          <span>COSC CHRONOMETER CERTIFIED</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       MODAL WINDOW: ALLOCATION RESERVATION (БРОНИРОВАНИЕ КВОТЫ)
+       ========================================================================== -->
+  <div class="modal-backdrop" id="reservation-modal" aria-hidden="true" onclick="handleBackdropClick(event)">
+    <div class="modal-window">
+      <span class="crosshair-tl">+</span><span class="crosshair-tr">+</span>
+      <span class="crosshair-bl">+</span><span class="crosshair-br">+</span>
+
+      <button class="modal-close-btn" onclick="closeReservationModal()" aria-label="Закрыть">✕</button>
+
+      <!-- Form View -->
+      <div id="modal-form-content">
+        <div class="modal-header">
+          <span class="tech-tag amber" style="margin-bottom: 8px;">
+            <span class="pulse-dot"></span> ПРИВАТНАЯ АЛЛОКАЦИЯ 2026
+          </span>
+          <h2 class="modal-title">Забронировать квоту на калибр</h2>
+          <p class="modal-subtitle">
+            Каждый экземпляр создается индивидуально. После отправки заявки ведущий инженер свяжется с вами для подтверждения параметров.
+          </p>
+        </div>
+
+        <!-- Selected Config Summary Display -->
+        <div class="modal-summary-card">
+          <div class="modal-summary-item">
+            <span class="modal-summary-label">Модель & Артикул</span>
+            <span class="modal-summary-val" id="modal-summary-sku">KRN-09-TI-PVD-ORG</span>
+          </div>
+          <div class="modal-summary-item">
+            <span class="modal-summary-label">Материал корпуса</span>
+            <span class="modal-summary-val" id="modal-summary-case">Титан Grade 5 Micro-blasted</span>
+          </div>
+          <div class="modal-summary-item">
+            <span class="modal-summary-label">Покрытие мостов & Люм</span>
+            <span class="modal-summary-val" id="modal-summary-bridge">PVD-графит // Вулкан #ff4d00</span>
+          </div>
+          <div class="modal-summary-item">
+            <span class="modal-summary-label">Расчетная стоимость</span>
+            <span class="modal-summary-val" style="color:var(--accent-amber);" id="modal-summary-price">$42,000 USD</span>
+          </div>
+        </div>
+
+        <form id="reservation-form" onsubmit="handleReservationSubmit(event)">
+          <div class="form-group">
+            <label class="form-label">Ваше Имя и Фамилия</label>
+            <input type="text" class="form-input" required placeholder="Константин фон Берг" id="form-name">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Предпочтительный канал конфиденциальной связи</label>
+            <div class="channel-radio-group">
+              <button type="button" class="channel-radio-btn is-active" data-channel="telegram" onclick="selectChannel(this)">Telegram</button>
+              <button type="button" class="channel-radio-btn" data-channel="whatsapp" onclick="selectChannel(this)">WhatsApp</button>
+              <button type="button" class="channel-radio-btn" data-channel="email" onclick="selectChannel(this)">Email Concierge</button>
+            </div>
+            <input type="hidden" id="form-channel-val" value="telegram">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" id="form-contact-label">Контакт в Telegram (@username или телефон)</label>
+            <input type="text" class="form-input" required placeholder="@client_id" id="form-contact">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Персональные пожелания или город доставки</label>
+            <input type="text" class="form-input" placeholder="Женева / Дубай / Москва / личная доставка мастером" id="form-city">
+          </div>
+
+          <button type="submit" class="btn-cta" style="width: 100%; justify-content: center; padding: 16px; margin-top: 12px; font-size: 0.9rem;">
+            <span>Подтвердить резерв квоты [→]</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Success Ticket Screen -->
+      <div id="modal-success-content" class="modal-success-screen">
+        <span class="tech-tag amber">КВОТА УСПЕШНО ЗАРЕЗЕРВИРОВАНА</span>
+        <h3 style="font-size: 1.8rem; margin: 16px 0 8px;">Сертификат аллокации #KRN-2026-841</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; max-width: 440px;">
+          Ваша заявка принята в закрытый реестр мануфактуры. Квота зафиксирована за вами на 48 часов.
+        </p>
+
+        <div class="success-ticket-box">
+          <div style="color: var(--accent-amber); font-weight: 700; margin-bottom: 8px;">
+            GENEVA ALLOCATION TICKET
+          </div>
+          <div style="font-size: 0.8rem; line-height: 1.6;">
+            <strong>КЛИЕНТ:</strong> <span id="success-client-name">Константин</span><br>
+            <strong>КОНФИГУРАЦИЯ:</strong> <span id="success-sku-val">KRN-09-TI-PVD-ORG</span><br>
+            <strong>СТОИМОСТЬ:</strong> <span id="success-price-val">$42,000 USD</span><br>
+            <strong>ВРЕМЯ РЕГИСТРАЦИИ:</strong> <span id="success-timestamp">CET</span><br>
+            <strong>СТАТУС:</strong> ВЫДЕЛЕН СЛОТ В ЛАБОРАТОРИИ
+          </div>
+        </div>
+
+        <button class="btn-cta btn-cta-secondary" onclick="closeReservationModal()" style="padding: 12px 24px;">
+          Закрыть сертификат [✕]
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       JAVASCRIPT ARCHITECTURE & WEB AUDIO ESCAPEMENT ENGINE
+       ========================================================================== -->
+  <script>
+    /**
+     * KRONOS HOROLOGY LAB — CORE SYSTEM CONTROLLER
+     * Single monolithic architecture:
+     * 1. CET Geneva Live Clock
+     * 2. Pure Web Audio API Escapement (28,800 vph / 4 Hz Mechanical Ticking)
+     * 3. 3D Interactive Parallax on Hero Watch
+     * 4. Bento Grid Mouse-Following Radial Border Glow
+     * 5. Bespoke Watch Configurator (SVG Material Shaders & Price Counter)
+     * 6. Catalog Filtering & Accordions
+     * 7. Reservation Modal & State Flow
+     */
+
+    // Global Configuration State
+    const AppState = {
+      config: {
+        case: 'ti',
+        casePrice: 42000,
+        caseWeight: 31,
+        caseSku: 'TI',
+        bridge: 'pvd',
+        bridgePrice: 0,
+        bridgeSku: 'PVD',
+        lume: 'amber',
+        lumeColor: '#ff4d00',
+        lumeSku: 'ORG',
+        strap: 'fkm',
+        strapPrice: 0,
+        strapSku: 'FKM',
+        engraving: 'KRONOS // GENÈVE'
+      },
+      audio: {
+        ctx: null,
+        isPlaying: false,
+        timerId: null,
+        currentBeat: 0
+      }
+    };
+
+    // 1. LIVE GENEVA CLOCK (CET)
+    function initGenevaClock() {
+      const clockEl = document.getElementById('geneva-clock');
+      function updateClock() {
+        try {
+          const now = new Date();
+          const formatter = new Intl.DateTimeFormat('ru-RU', {
+            timeZone: 'Europe/Zurich',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+          });
+          clockEl.textContent = formatter.format(now) + ' CET';
+        } catch (e) {
+          // Fallback if timezone not supported
+          const d = new Date();
+          clockEl.textContent = d.toTimeString().split(' ')[0] + ' CET';
+        }
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+    }
+
+    // 2. PURE WEB AUDIO API ESCAPEMENT ENGINE (28 800 VPH / 4 Hz)
+    // 28,800 vibrations/hour = 8 ticks per second (interval: 125ms)
+    // Simulates ruby pallet jewel impact against steel escape wheel teeth
+    function initAudioContext() {
+      if (!AppState.audio.ctx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        AppState.audio.ctx = new AudioContextClass();
+      }
+      if (AppState.audio.ctx.state === 'suspended') {
+        AppState.audio.ctx.resume();
+      }
+    }
+
+    function playEscapementTick(isPalletA) {
+      if (!AppState.audio.ctx) return;
+      const ctx = AppState.audio.ctx;
+      const now = ctx.currentTime;
+
+      // Escapement impulse components:
+      // 1. Filtered metallic noise burst (pallet friction & contact)
+      // 2. Damped resonant ping (steel/ruby resonance at ~3200Hz / ~2800Hz)
+
+      // A. Metallic Noise Burst
+      const bufferSize = ctx.sampleRate * 0.025; // 25ms
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (ctx.sampleRate * 0.005));
+      }
+
+      const noiseSource = ctx.createBufferSource();
+      noiseSource.buffer = buffer;
+
+      // Bandpass filter for noise to simulate tiny mechanical click
+      const bandpass = ctx.createBiquadFilter();
+      bandpass.type = 'bandpass';
+      bandpass.frequency.value = isPalletA ? 3400 : 2950;
+      bandpass.Q.value = 6;
+
+      const noiseGain = ctx.createGain();
+      noiseGain.gain.setValueAtTime(0.4, now);
+      noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.02);
+
+      noiseSource.connect(bandpass);
+      bandpass.connect(noiseGain);
+      noiseGain.connect(ctx.destination);
+      noiseSource.start(now);
+
+      // B. Resonant High Ping (Balance Pin & Tooth Drop)
+      const osc = ctx.createOscillator();
+      const oscGain = ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(isPalletA ? 4200 : 3800, now);
+      osc.frequency.exponentialRampToValueAtTime(isPalletA ? 2100 : 1900, now + 0.03);
+
+      oscGain.gain.setValueAtTime(0.15, now);
+      oscGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.035);
+
+      osc.connect(oscGain);
+      oscGain.connect(ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.04);
+    }
+
+    function toggleAudioTick() {
+      initAudioContext();
+      const headerBtn = document.getElementById('header-sound-btn');
+      const bentoBtn = document.getElementById('bento-audio-btn');
+      const bentoLabel = document.getElementById('bento-audio-btn-label');
+
+      if (AppState.audio.isPlaying) {
+        clearInterval(AppState.audio.timerId);
+        AppState.audio.isPlaying = false;
+        headerBtn.classList.remove('is-active');
+        bentoBtn.classList.remove('is-playing');
+        bentoLabel.textContent = 'Прослушать 28 800 пк/ч';
+      } else {
+        AppState.audio.isPlaying = true;
+        headerBtn.classList.add('is-active');
+        bentoBtn.classList.add('is-playing');
+        bentoLabel.textContent = 'Остановить воспроизведение';
+
+        // 8 ticks/sec = 125ms per beat
+        AppState.audio.timerId = setInterval(() => {
+          AppState.audio.currentBeat++;
+          const isPalletA = AppState.audio.currentBeat % 2 === 0;
+          playEscapementTick(isPalletA);
+          drawAudioPulse(isPalletA);
+        }, 125);
+      }
+    }
+
+    // Oscilloscope Animation
+    const oscCanvas = document.getElementById('oscilloscope-canvas');
+    const oscCtx = oscCanvas.getContext('2d');
+    let waveOffset = 0;
+
+    function drawAudioPulse(isHigh) {
+      if (!oscCtx) return;
+      const w = oscCanvas.width;
+      const h = oscCanvas.height;
+      oscCtx.fillStyle = 'rgba(4, 5, 7, 0.35)';
+      oscCtx.fillRect(0, 0, w, h);
+
+      oscCtx.beginPath();
+      oscCtx.lineWidth = 1.8;
+      oscCtx.strokeStyle = isHigh ? '#ff4d00' : '#c8ccd4';
+
+      const cy = h / 2;
+      for (let x = 0; x < w; x += 3) {
+        const distFromCenter = Math.abs(x - w / 2);
+        const amp = Math.max(0, (w / 2 - distFromCenter) / (w / 2));
+        const y = cy + Math.sin((x + waveOffset) * 0.15) * (amp * (isHigh ? 18 : 12));
+        if (x === 0) oscCtx.moveTo(x, y);
+        else oscCtx.lineTo(x, y);
+      }
+      oscCtx.stroke();
+      waveOffset += 14;
+    }
+
+    // Baseline oscilloscope idle wave
+    function renderIdleOscilloscope() {
+      if (!AppState.audio.isPlaying && oscCtx) {
+        const w = oscCanvas.width;
+        const h = oscCanvas.height;
+        oscCtx.fillStyle = 'rgba(4, 5, 7, 0.2)';
+        oscCtx.fillRect(0, 0, w, h);
+
+        oscCtx.beginPath();
+        oscCtx.lineWidth = 1;
+        oscCtx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+        const cy = h / 2;
+        for (let x = 0; x < w; x += 4) {
+          const y = cy + Math.sin((x + waveOffset) * 0.05) * 3;
+          if (x === 0) oscCtx.moveTo(x, y);
+          else oscCtx.lineTo(x, y);
+        }
+        oscCtx.stroke();
+        waveOffset += 0.8;
+      }
+      requestAnimationFrame(renderIdleOscilloscope);
+    }
+
+    // Header audio button sync
+    document.getElementById('header-sound-btn').addEventListener('click', toggleAudioTick);
+
+    // 3. 3D INTERACTIVE PARALLAX ON HERO WATCH
+    function initHero3DParallax() {
+      const stage = document.getElementById('hero-3d-stage');
+      const disc = document.getElementById('hero-calibre-disc');
+      if (!stage || !disc) return;
+
+      stage.addEventListener('mousemove', (e) => {
+        const rect = stage.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        const rotX = -y * 22; // -11 to +11 deg
+        const rotY = x * 22;
+        disc.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`;
+      });
+
+      stage.addEventListener('mouseleave', () => {
+        disc.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+      });
+    }
+
+    // 4. BENTO GRID MOUSE-FOLLOWING RADIAL BORDER GLOW
+    function initBentoGlow() {
+      const cards = document.querySelectorAll('[data-bento-card]');
+      cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+        });
+      });
+    }
+
+    // Tourbillon Day / Night Mode Toggle
+    function toggleTourbillonLume() {
+      const card = document.getElementById('tourbillon-card');
+      const label = document.getElementById('lume-btn-label');
+      const isNight = card.classList.toggle('is-night-mode');
+      if (isNight) {
+        label.textContent = 'Вернуть дневной титановый режим';
+      } else {
+        label.textContent = 'Включить ночной режим Super-LumiNova';
+      }
+    }
+
+    // 5. BESPOKE WATCH CONFIGURATOR CONTROLLER
+    function selectConfigOption(element) {
+      const group = element.dataset.optGroup;
+      const val = element.dataset.optVal;
+      const price = parseInt(element.dataset.price || '0', 10);
+      const sku = element.dataset.sku;
+
+      // Update active state in UI
+      const siblings = document.querySelectorAll(`[data-opt-group="${group}"]`);
+      siblings.forEach(el => el.classList.remove('is-selected'));
+      element.classList.add('is-selected');
+
+      if (group === 'case') {
+        AppState.config.case = val;
+        AppState.config.casePrice = price;
+        AppState.config.caseSku = sku;
+        AppState.config.caseWeight = parseFloat(element.dataset.weight || '31');
+      } else if (group === 'bridge') {
+        AppState.config.bridge = val;
+        AppState.config.bridgePrice = price;
+        AppState.config.bridgeSku = sku;
+      } else if (group === 'strap') {
+        AppState.config.strap = val;
+        AppState.config.strapPrice = price;
+        AppState.config.strapSku = sku;
+      }
+
+      applyConfigToSVG();
+      updateConfigSummary();
+    }
+
+    function selectLumeSwatch(element) {
+      const swatches = document.querySelectorAll('[data-opt-group="lume"]');
+      swatches.forEach(el => el.classList.remove('is-selected'));
+      element.classList.add('is-selected');
+
+      AppState.config.lume = element.dataset.optVal;
+      AppState.config.lumeColor = element.dataset.color;
+      AppState.config.lumeSku = element.dataset.sku;
+
+      applyConfigToSVG();
+      updateConfigSummary();
+    }
+
+    function updateRotorEngraving(text) {
+      const clean = (text || '').toUpperCase().slice(0, 12);
+      AppState.config.engraving = clean.trim() || 'KRONOS // GENÈVE';
+      document.getElementById('cfg-rotor-text-path').textContent = AppState.config.engraving;
+      document.getElementById('engraving-char-count').textContent = `${clean.length} / 12 символов`;
+    }
+
+    function applyConfigToSVG() {
+      // 1. Case Material Shader
+      const caseRect = document.getElementById('cfg-case-rect');
+      if (AppState.config.case === 'ti') {
+        caseRect.setAttribute('fill', 'url(#cfg-case-ti)');
+        caseRect.setAttribute('stroke', '#585e70');
+      } else if (AppState.config.case === 'carbon') {
+        caseRect.setAttribute('fill', 'url(#cfg-case-carbon)');
+        caseRect.setAttribute('stroke', '#22252e');
+      } else if (AppState.config.case === 'sapphire') {
+        caseRect.setAttribute('fill', 'url(#cfg-case-sapphire)');
+        caseRect.setAttribute('stroke', '#00d2ff');
+      }
+
+      // 2. Bridges Coating Shader
+      const mesh = document.getElementById('cfg-bridge-mesh');
+      const lower = document.getElementById('cfg-bridge-lower');
+      let fillUrl = 'url(#cfg-bridge-pvd)';
+      if (AppState.config.bridge === 'gold') fillUrl = 'url(#cfg-bridge-gold)';
+      if (AppState.config.bridge === 'rhodium') fillUrl = 'url(#cfg-bridge-rhodium)';
+      mesh.setAttribute('fill', fillUrl);
+      lower.setAttribute('fill', fillUrl);
+
+      // 3. Super-LumiNova Color Spectrum
+      const color = AppState.config.lumeColor;
+      const markers = document.querySelectorAll('#cfg-lume-markers circle');
+      markers.forEach(m => m.setAttribute('fill', color));
+      document.getElementById('cfg-hand-lume-hour').setAttribute('fill', color);
+      document.getElementById('cfg-hand-lume-min').setAttribute('fill', color);
+
+      // 4. Strap styling
+      const strapTop = document.getElementById('cfg-strap-top');
+      const strapBottom = document.getElementById('cfg-strap-bottom');
+      if (AppState.config.strap === 'kevlar') {
+        strapTop.setAttribute('fill', '#1c1e24');
+        strapTop.setAttribute('stroke', '#62687a');
+        strapBottom.setAttribute('fill', '#1c1e24');
+        strapBottom.setAttribute('stroke', '#62687a');
+      } else {
+        strapTop.setAttribute('fill', '#131418');
+        strapTop.setAttribute('stroke', '#2c303b');
+        strapBottom.setAttribute('fill', '#131418');
+        strapBottom.setAttribute('stroke', '#2c303b');
+      }
+    }
+
+    // Smooth price animation counter
+    let currentAnimatedPrice = 42000;
+    function updateConfigSummary() {
+      const totalPrice = AppState.config.casePrice + AppState.config.bridgePrice + AppState.config.strapPrice;
+      const sku = `KRN-09-${AppState.config.caseSku}-${AppState.config.bridgeSku}-${AppState.config.lumeSku}`;
+      
+      // Update SKU and weight
+      document.getElementById('cfg-stat-sku').textContent = sku;
+      document.getElementById('cfg-stat-weight').textContent = (AppState.config.caseWeight).toFixed(1) + ' г';
+
+      // Animate price counter
+      const targetPrice = totalPrice;
+      const startPrice = currentAnimatedPrice;
+      const duration = 400; // ms
+      const startTime = performance.now();
+
+      function animatePrice(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / duration);
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const val = Math.round(startPrice + (targetPrice - startPrice) * ease);
+        document.getElementById('config-total-price').textContent = val.toLocaleString('en-US');
+        currentAnimatedPrice = val;
+        if (progress < 1) requestAnimationFrame(animatePrice);
+      }
+      requestAnimationFrame(animatePrice);
+    }
+
+    // 6. PRESET LOADER FROM CATALOG TO CONFIGURATOR
+    function loadPresetToConfig(caseOpt, bridgeOpt, lumeOpt) {
+      // Find and trigger case option
+      const caseEl = document.querySelector(`[data-opt-group="case"][data-opt-val="${caseOpt}"]`);
+      if (caseEl) selectConfigOption(caseEl);
+
+      const bridgeEl = document.querySelector(`[data-opt-group="bridge"][data-opt-val="${bridgeOpt}"]`);
+      if (bridgeEl) selectConfigOption(bridgeEl);
+
+      const lumeEl = document.querySelector(`[data-opt-group="lume"][data-opt-val="${lumeOpt}"]`);
+      if (lumeEl) selectLumeSwatch(lumeEl);
+
+      // Smooth scroll to configurator
+      document.getElementById('configurator').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Catalog filtering
+    function filterCatalog(category, button) {
+      document.querySelectorAll('.filter-tab-btn').forEach(btn => btn.classList.remove('is-active'));
+      button.classList.add('is-active');
+
+      const cards = document.querySelectorAll('#catalog-items-grid .catalog-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 7. RESERVATION MODAL CONTROLLER
+    function openReservationModal() {
+      populateModalSummary();
+      const modal = document.getElementById('reservation-modal');
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function openReservationModalWithConfig() {
+      openReservationModal();
+    }
+
+    function closeReservationModal() {
+      const modal = document.getElementById('reservation-modal');
+      modal.classList.remove('is-open');
+      modal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      
+      // Reset view back to form
+      setTimeout(() => {
+        document.getElementById('modal-form-content').style.display = 'block';
+        document.getElementById('modal-success-content').style.display = 'none';
+      }, 300);
+    }
+
+    function handleBackdropClick(event) {
+      if (event.target === document.getElementById('reservation-modal')) {
+        closeReservationModal();
+      }
+    }
+
+    function populateModalSummary() {
+      const total = AppState.config.casePrice + AppState.config.bridgePrice + AppState.config.strapPrice;
+      const sku = `KRN-09-${AppState.config.caseSku}-${AppState.config.bridgeSku}-${AppState.config.lumeSku}`;
+      
+      let caseLabel = 'Титан Grade 5 Micro-blasted';
+      if (AppState.config.case === 'carbon') caseLabel = 'Кованый карбон TPT®';
+      if (AppState.config.case === 'sapphire') caseLabel = 'Сапфировый моноблок';
+
+      let bridgeLabel = 'PVD-графит';
+      if (AppState.config.bridge === 'gold') bridgeLabel = 'Золото 5N PVD';
+      if (AppState.config.bridge === 'rhodium') bridgeLabel = 'Платиновый родий';
+
+      document.getElementById('modal-summary-sku').textContent = sku;
+      document.getElementById('modal-summary-case').textContent = caseLabel;
+      document.getElementById('modal-summary-bridge').textContent = `${bridgeLabel} // Люм ${AppState.config.lumeSku}`;
+      document.getElementById('modal-summary-price').textContent = `$${total.toLocaleString('en-US')} USD`;
+    }
+
+    function selectChannel(button) {
+      document.querySelectorAll('.channel-radio-btn').forEach(btn => btn.classList.remove('is-active'));
+      button.classList.add('is-active');
+      const channel = button.dataset.channel;
+      document.getElementById('form-channel-val').value = channel;
+      
+      const label = document.getElementById('form-contact-label');
+      if (channel === 'telegram') label.textContent = 'Контакт в Telegram (@username или телефон)';
+      else if (channel === 'whatsapp') label.textContent = 'Номер WhatsApp с кодом страны';
+      else label.textContent = 'Адрес личной электронной почты';
+    }
+
+    function handleReservationSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('form-name').value;
+      const sku = `KRN-09-${AppState.config.caseSku}-${AppState.config.bridgeSku}-${AppState.config.lumeSku}`;
+      const total = AppState.config.casePrice + AppState.config.bridgePrice + AppState.config.strapPrice;
+
+      // Populate success ticket
+      document.getElementById('success-client-name').textContent = name;
+      document.getElementById('success-sku-val').textContent = sku;
+      document.getElementById('success-price-val').textContent = `$${total.toLocaleString('en-US')} USD`;
+      document.getElementById('success-timestamp').textContent = new Date().toLocaleString('ru-RU') + ' CET';
+
+      // Transition views
+      document.getElementById('modal-form-content').style.display = 'none';
+      document.getElementById('modal-success-content').style.display = 'flex';
+    }
+
+    // 8. INITIALIZE EVERYTHING ON DOM READY
+    window.addEventListener('DOMContentLoaded', () => {
+      initGenevaClock();
+      initHero3DParallax();
+      initBentoGlow();
+      renderIdleOscilloscope();
+      applyConfigToSVG();
+      updateConfigSummary();
+
+      // Mobile Menu Simple Scroll Anchor Support
+      const mobileBtn = document.getElementById('mobile-menu-toggle');
+      if (mobileBtn) {
+        mobileBtn.addEventListener('click', () => {
+          openReservationModal();
+        });
+      }
+    });
+  </script>
+</body>
+</html>
